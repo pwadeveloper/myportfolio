@@ -726,6 +726,10 @@
     width: calc(100% - 40px);
   }
 
+  .printivo__timeline-glow {
+    display: none;
+  }
+
   .printivo__tl-weeks {
     display: none;
   }
