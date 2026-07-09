@@ -82,6 +82,67 @@ export default function PrintivoPage() {
           },
         )
       })
+
+      // ── Role & Approach: copy reveals first, the team list follows on scroll
+      gsap.fromTo(
+        '.printivo__roles-copy > *',
+        { opacity: 0, y: 56 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__roles', start: 'top 62%' },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__team > *',
+        { opacity: 0, y: 34 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__team', start: 'top 78%' },
+        },
+      )
+
+      // ── Project Timeline: panel rises with its mesh glow, bars stagger in
+      gsap.fromTo(
+        '.printivo__timeline-panel',
+        { opacity: 0, y: 90 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__timeline', start: 'top 62%' },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__timeline-glow',
+        { opacity: 0 },
+        {
+          opacity: 0.16,
+          duration: 2.2,
+          ease: 'power1.inOut',
+          scrollTrigger: { trigger: '.printivo__timeline', start: 'top 62%' },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__tl-bar',
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '.printivo__timeline', start: 'top 45%' },
+        },
+      )
     }, root)
 
     return () => ctx.revert()
@@ -163,6 +224,82 @@ export default function PrintivoPage() {
           width={413}
           height={338}
         />
+      </section>
+
+      <section className="printivo__roles" aria-label="Role, approach and team">
+        <div className="printivo__roles-copy">
+          <h2 className="printivo__roles-heading">My Role &amp; Approach</h2>
+          <p>
+            I was the lead product designer on this project, and I started by jumping on calls
+            with folks from the marketing, customer care and tech department. I wanted to get a
+            sense of what they had been dealing with so far, positive and negative feedback alike.
+          </p>
+          <p>
+            I also got the marketing department to give me a list of our frequent customers so I
+            could jump on a call with them to get feedback on their overall experience using the
+            platform. A 2000 NGN coupon was approved to give as an incentive/reward to the
+            customers who participated in my interview sessions.
+          </p>
+        </div>
+        <div className="printivo__team">
+          <p className="printivo__team-label">Team</p>
+          <p><strong>1</strong> Product Designer (Me) 🥷</p>
+          <p><strong>1</strong> Product Manager 👩🏽‍💼</p>
+          <p><strong>2</strong> Front End Developers 🧑🏽‍💻 🧑🏽‍💻</p>
+          <p><strong>2</strong> Backend Developers 🧑🏿‍💻 🧑🏿‍💻</p>
+        </div>
+      </section>
+
+      <section className="printivo__timeline" aria-label="Project timeline">
+        <div className="printivo__timeline-glow" aria-hidden="true" />
+        <div className="printivo__timeline-panel">
+          <h2>Project Timeline</h2>
+          <div className="printivo__tl-weeks" aria-hidden="true">
+            <span>WK 1</span>
+            <span>WK2</span>
+            <span>WK3</span>
+            <span>WK 4</span>
+            <span>WK 5</span>
+            <span>WK 6</span>
+            <span>WK 7</span>
+            <span>WK8</span>
+            <span>WK9</span>
+            <span>WK10-14</span>
+          </div>
+          <div className="printivo__tl-row">
+            <span className="printivo__tl-bar" style={{ gridColumn: '1 / span 3' }}>
+              Discovery Sessions / Problem Definition
+            </span>
+          </div>
+          <div className="printivo__tl-row">
+            <span className="printivo__tl-bar" style={{ gridColumn: '6 / span 5' }}>
+              UX Audit of the existing platform
+            </span>
+            <span className="printivo__tl-bar" style={{ gridColumn: '13 / span 5' }}>
+              High-Fidelity Prototype
+            </span>
+          </div>
+          <div className="printivo__tl-row">
+            <span className="printivo__tl-bar" style={{ gridColumn: '4 / span 5' }}>
+              Research with the internal departments
+            </span>
+            <span className="printivo__tl-bar" style={{ gridColumn: '10 / span 3' }}>
+              User flow
+            </span>
+            <span className="printivo__tl-bar" style={{ gridColumn: '17 / span 4' }}>
+              Working with Developers
+            </span>
+          </div>
+          <div className="printivo__tl-row">
+            <span className="printivo__tl-bar" style={{ gridColumn: '5 / span 5' }}>
+              Research with the platform users
+            </span>
+            <span className="printivo__tl-bar" style={{ gridColumn: '12 / span 3' }}>
+              Explorations
+            </span>
+          </div>
+          <div className="printivo__tl-row printivo__tl-row--empty" />
+        </div>
       </section>
 
       <img

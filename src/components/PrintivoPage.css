@@ -180,6 +180,128 @@
   width: 21.5%;
 }
 
+/* ── Role & Approach + Team ──────────────────────────────── */
+
+.printivo__roles {
+  position: relative;
+  min-height: 100svh;
+  padding: 19svh 0 10svh;
+}
+
+.printivo__roles-copy {
+  margin-left: 9.74%;
+  width: 40%;
+}
+
+.printivo__roles-heading {
+  margin: 0 0 0.55em;
+  font-family: 'PP Editorial New', var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 2.3vw, 44px);
+  letter-spacing: 0.005em;
+}
+
+.printivo__roles-copy p {
+  margin: 0 0 1.2em;
+  font-weight: 400;
+  font-size: clamp(16px, 1.51vw, 29px);
+  line-height: 1.24;
+}
+
+.printivo__team {
+  position: absolute;
+  left: 74.8%;
+  top: 52%;
+  font-size: clamp(14px, 1.35vw, 26px);
+  line-height: 1.38;
+}
+
+.printivo__team p {
+  margin: 0;
+}
+
+.printivo__team-label {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 600;
+  margin-bottom: 0.2em !important;
+}
+
+.printivo__team strong {
+  font-weight: 700;
+}
+
+/* ── Project Timeline ────────────────────────────────────── */
+
+.printivo__timeline {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* CMYK mesh glow: the four-corner inverse-square shader plus the 636.8px
+   radial blur, pre-rendered to a texture (public/images/projects/printivo/
+   cmyk-mesh.png) so no runtime blur is needed. */
+.printivo__timeline-glow {
+  position: absolute;
+  inset: -6%;
+  background: url('/images/projects/printivo/cmyk-mesh.png') center / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.printivo__timeline-panel {
+  position: relative;
+  width: 75%;
+  border-radius: 14px;
+  background: rgba(19, 19, 19, 0.82);
+  padding: clamp(20px, 2.8vw, 54px) clamp(16px, 2.1vw, 40px);
+  backdrop-filter: blur(4px);
+}
+
+.printivo__timeline-panel h2 {
+  margin: 0 0 1em;
+  font-family: 'PP Editorial New', var(--serif);
+  font-weight: 400;
+  font-size: clamp(20px, 1.7vw, 33px);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.printivo__tl-weeks {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  margin-bottom: 14px;
+  font-weight: 300;
+  font-size: clamp(12px, 1.35vw, 26px);
+  color: rgba(255, 255, 255, 0.34);
+  white-space: nowrap;
+}
+
+.printivo__tl-row {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  align-items: center;
+  min-height: clamp(40px, 4.6vw, 62px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.printivo__tl-row--empty {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.printivo__tl-bar {
+  display: block;
+  padding: clamp(8px, 0.9vw, 16px) clamp(10px, 1vw, 20px);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.09);
+  font-weight: 500;
+  font-size: clamp(11px, 0.95vw, 18px);
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.88);
+}
+
 /* ── Small screens ───────────────────────────────────────── */
 
 @media (max-width: 860px) {
@@ -219,5 +341,32 @@
     width: 75%;
     max-width: 340px;
     margin-top: 32px;
+  }
+
+  .printivo__roles {
+    padding: 14svh 20px 10svh;
+  }
+
+  .printivo__roles-copy {
+    margin-left: 0;
+    width: auto;
+  }
+
+  .printivo__roles-copy p {
+    font-size: 17px;
+  }
+
+  .printivo__team {
+    position: static;
+    margin-top: 40px;
+    font-size: 17px;
+  }
+
+  .printivo__timeline-panel {
+    width: calc(100% - 40px);
+  }
+
+  .printivo__tl-bar {
+    white-space: normal;
   }
 }
