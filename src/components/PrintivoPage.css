@@ -440,16 +440,16 @@
    Tilt, folded corner and glow are baked into the PNGs. */
 .printivo__note {
   position: absolute;
-  width: clamp(200px, 15.5vw, 300px);
+  width: clamp(230px, 19vw, 380px);
   will-change: transform, opacity, filter;
 }
 
-.printivo__note--1 { left: 8.5%; top: 12%; }
-.printivo__note--2 { left: 14%; top: 41%; }
-.printivo__note--3 { left: 14.5%; top: 68%; }
-.printivo__note--4 { right: 7%; top: 14%; }
-.printivo__note--5 { right: 5.5%; top: 41%; }
-.printivo__note--6 { right: 7.5%; top: 66%; }
+.printivo__note--1 { left: 12%; top: 12%; }
+.printivo__note--2 { left: 15%; top: 41%; }
+.printivo__note--3 { left: 14%; top: 68%; }
+.printivo__note--4 { right: 11.5%; top: 14%; }
+.printivo__note--5 { right: 14.5%; top: 41%; }
+.printivo__note--6 { right: 12.5%; top: 66%; }
 
 /* Brighter, slightly bigger, and (from the tsx) a sound — all in sync. */
 .printivo__note-img {
