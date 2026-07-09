@@ -38,5 +38,21 @@ The bottom-left corner shows the visitor's live local time and timezone.
   hand-specific code. Your index fingertip drives the cursor; pinching thumb + index twice quickly
   clicks whatever is under it; pinching once and dragging vertically scrolls the page. The choice
   persists (localStorage) and auto-resumes on pages/tabs where camera permission is already
-  granted. Project URLs are `#slug` placeholders in `src/data/projects.ts` — replace them with real
-  case-study links.
+  granted.
+
+## Project pages
+
+Routing is a small hash router in `src/App.tsx`: clicking (or double-pinching) a project on the
+hero opens `#slug` in a new tab.
+
+- **Printivo** (`src/components/PrintivoPage.tsx`) is a bespoke scrollable slide deck driven by
+  GSAP ScrollTrigger: a pinned PP Editorial New quote whose archival images spring up from the
+  bottom edge before the text blur-fades away, then scroll-revealed slides — the Gutenberg→Printivo
+  story with floating imagery, Role & Approach with the team list, the Project Timeline panel over
+  a pre-rendered CMYK mesh glow, and the research section around the looping eye video. A CMYK
+  registration strip stays fixed at the bottom.
+- **Every other project** uses the shared editorial template (`src/components/ProjectPage.tsx`):
+  top bar, oversized `/NN` index and title, meta columns, wide hero image, and a Kaduna-time
+  footer. Content comes from `src/data/projects.ts` (`category`, `role`, `intro`, optional
+  `sections`/`stats`); projects without real content yet fall back to placeholder copy, and the
+  "View Live Project" button appears only when a `liveUrl` is set.
