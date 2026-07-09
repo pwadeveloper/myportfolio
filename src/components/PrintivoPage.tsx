@@ -111,23 +111,13 @@ export default function PrintivoPage() {
 
       // ── Project Timeline: panel rises with its mesh glow, bars stagger in
       gsap.fromTo(
-        '.printivo__timeline-panel',
+        '.printivo__timeline-frame',
         { opacity: 0, y: 90 },
         {
           opacity: 1,
           y: 0,
           duration: 1.2,
           ease: 'power3.out',
-          scrollTrigger: { trigger: '.printivo__timeline', start: 'top 62%' },
-        },
-      )
-      gsap.fromTo(
-        '.printivo__timeline-glow',
-        { opacity: 0 },
-        {
-          opacity: 0.16,
-          duration: 2.2,
-          ease: 'power1.inOut',
           scrollTrigger: { trigger: '.printivo__timeline', start: 'top 62%' },
         },
       )
@@ -141,6 +131,32 @@ export default function PrintivoPage() {
           stagger: 0.1,
           ease: 'power2.out',
           scrollTrigger: { trigger: '.printivo__timeline', start: 'top 45%' },
+        },
+      )
+
+      // ── Research: both text columns cascade up, the eye video floats in
+      gsap.fromTo(
+        '.printivo__research-copy > *',
+        { opacity: 0, y: 56 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          stagger: 0.13,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__research', start: 'top 62%' },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__research-video',
+        { opacity: 0, y: 70, scale: 0.965 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.4,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__research', start: 'top 58%' },
         },
       )
     }, root)
@@ -251,54 +267,113 @@ export default function PrintivoPage() {
       </section>
 
       <section className="printivo__timeline" aria-label="Project timeline">
-        <div className="printivo__timeline-glow" aria-hidden="true" />
-        <div className="printivo__timeline-panel">
-          <h2>Project Timeline</h2>
-          <div className="printivo__tl-weeks" aria-hidden="true">
-            <span>WK 1</span>
-            <span>WK2</span>
-            <span>WK3</span>
-            <span>WK 4</span>
-            <span>WK 5</span>
-            <span>WK 6</span>
-            <span>WK 7</span>
-            <span>WK8</span>
-            <span>WK9</span>
-            <span>WK10-14</span>
+        <div className="printivo__timeline-frame">
+          <div className="printivo__timeline-glow" aria-hidden="true" />
+          <div className="printivo__timeline-panel">
+            <h2>Project Timeline</h2>
+            <div className="printivo__tl-weeks" aria-hidden="true">
+              <span>WK 1</span>
+              <span>WK2</span>
+              <span>WK3</span>
+              <span>WK 4</span>
+              <span>WK 5</span>
+              <span>WK 6</span>
+              <span>WK 7</span>
+              <span>WK8</span>
+              <span>WK9</span>
+              <span>WK10-14</span>
+            </div>
+            <div className="printivo__tl-row">
+              <span className="printivo__tl-bar" style={{ gridColumn: '1 / span 3' }}>
+                Discovery Sessions / Problem Definition
+              </span>
+            </div>
+            <div className="printivo__tl-row">
+              <span className="printivo__tl-bar" style={{ gridColumn: '6 / span 5' }}>
+                UX Audit of the existing platform
+              </span>
+              <span className="printivo__tl-bar" style={{ gridColumn: '13 / span 5' }}>
+                High-Fidelity Prototype
+              </span>
+            </div>
+            <div className="printivo__tl-row">
+              <span className="printivo__tl-bar" style={{ gridColumn: '4 / span 5' }}>
+                Research with the internal departments
+              </span>
+              <span className="printivo__tl-bar" style={{ gridColumn: '10 / span 3' }}>
+                User flow
+              </span>
+              <span className="printivo__tl-bar" style={{ gridColumn: '17 / span 4' }}>
+                Working with Developers
+              </span>
+            </div>
+            <div className="printivo__tl-row">
+              <span className="printivo__tl-bar" style={{ gridColumn: '5 / span 5' }}>
+                Research with the platform users
+              </span>
+              <span className="printivo__tl-bar" style={{ gridColumn: '12 / span 3' }}>
+                Explorations
+              </span>
+            </div>
+            <div className="printivo__tl-row printivo__tl-row--empty" />
           </div>
-          <div className="printivo__tl-row">
-            <span className="printivo__tl-bar" style={{ gridColumn: '1 / span 3' }}>
-              Discovery Sessions / Problem Definition
-            </span>
-          </div>
-          <div className="printivo__tl-row">
-            <span className="printivo__tl-bar" style={{ gridColumn: '6 / span 5' }}>
-              UX Audit of the existing platform
-            </span>
-            <span className="printivo__tl-bar" style={{ gridColumn: '13 / span 5' }}>
-              High-Fidelity Prototype
-            </span>
-          </div>
-          <div className="printivo__tl-row">
-            <span className="printivo__tl-bar" style={{ gridColumn: '4 / span 5' }}>
-              Research with the internal departments
-            </span>
-            <span className="printivo__tl-bar" style={{ gridColumn: '10 / span 3' }}>
-              User flow
-            </span>
-            <span className="printivo__tl-bar" style={{ gridColumn: '17 / span 4' }}>
-              Working with Developers
-            </span>
-          </div>
-          <div className="printivo__tl-row">
-            <span className="printivo__tl-bar" style={{ gridColumn: '5 / span 5' }}>
-              Research with the platform users
-            </span>
-            <span className="printivo__tl-bar" style={{ gridColumn: '12 / span 3' }}>
-              Explorations
-            </span>
-          </div>
-          <div className="printivo__tl-row printivo__tl-row--empty" />
+        </div>
+      </section>
+
+      <section className="printivo__research" aria-label="Splitting the research participants">
+        <div className="printivo__research-copy">
+          <h2 className="printivo__research-heading">Splitting the research participants</h2>
+          <p className="printivo__research-label">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h8A2.5 2.5 0 0 1 16 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-8A2.5 2.5 0 0 1 3 16.5z" />
+              <path d="m16 10 4.1-2.4a.6.6 0 0 1 .9.6v7.6a.6.6 0 0 1-.9.6L16 14" />
+            </svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="9" cy="8.2" r="3.2" />
+              <path d="M3.6 19c.6-3 2.7-4.9 5.4-4.9s4.8 1.9 5.4 4.9" />
+              <circle cx="16.6" cy="9.1" r="2.6" />
+              <path d="M15.6 14.4c2.3.3 4.1 2 4.7 4.6" />
+            </svg>
+            Video Interviews with everyone
+          </p>
+          <p>
+            As stated earlier, my research was internal and external, I aimed to understand how
+            everyone interacted with the service both those who directly used it and those who
+            served the users. So I jumped on various video calls for a couple of weeks just to get
+            diverse insights.
+          </p>
+          <p>
+            The tech department had the usual bugs to fix, such as a file not being attached to an
+            order when the user request has been submitted for print, the customer care department
+            kept getting calls from users calling to ask/confirm information they (the customer
+            care reps) were sure was on the website already, or users complaining of getting the
+            wrong results when they searched for a product (this was something we had to discuss
+            in the tech department also).
+          </p>
+        </div>
+
+        <video
+          className="printivo__research-video"
+          src="/vids/eyesplit.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+
+        <div className="printivo__research-copy printivo__research-copy--right">
+          <p>
+            In addition to the customers I reached out to for interviews, I wanted to also observe
+            people use the platform, so I sent out a tweet and got a handful of volunteers.
+          </p>
+          <p>
+            My conversation with the customers revealed that they found the details on the product
+            category page to be confusing and they also felt like they needed to be able to create
+            designs themselves before they could use the platform, so they simply used the website
+            to search for what they want to print before placing a call to customer care before
+            sending their print file via WhatsApp (the customer care department confirmed this
+            happens often).
+          </p>
         </div>
       </section>
 

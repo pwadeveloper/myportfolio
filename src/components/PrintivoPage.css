@@ -241,20 +241,29 @@
   overflow: hidden;
 }
 
-/* CMYK mesh glow: the four-corner inverse-square shader plus the 636.8px
-   radial blur, pre-rendered to a texture (public/images/projects/printivo/
-   cmyk-mesh.png) so no runtime blur is needed. */
+/* The frame carries the panel and its glow together, so the glow stays
+   pinned underneath the panel rather than washing the whole section. */
+.printivo__timeline-frame {
+  position: relative;
+  width: 75%;
+}
+
+/* Mesh-gradient shadow (public/images/projects/printivo/mesh-shadow.png):
+   sits behind the lower half of the panel and spills below it. The png's
+   alpha already fades out at its edges (max ~25%), so it needs no mask and
+   no extra dimming — the frame's entrance tween fades it in. */
 .printivo__timeline-glow {
   position: absolute;
-  inset: -6%;
-  background: url('/images/projects/printivo/cmyk-mesh.png') center / 100% 100% no-repeat;
-  opacity: 0;
+  left: -7%;
+  right: -7%;
+  top: 60%;
+  bottom: -40%;
+  background: url('/images/projects/printivo/mesh-shadow.png') center / 100% 100% no-repeat;
   pointer-events: none;
 }
 
 .printivo__timeline-panel {
   position: relative;
-  width: 75%;
   border-radius: 14px;
   background: rgba(19, 19, 19, 0.82);
   padding: clamp(20px, 2.8vw, 54px) clamp(16px, 2.1vw, 40px);
@@ -291,8 +300,11 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
+/* justify-self: start shrinks each bar to its text instead of stretching
+   across the full column span — padding reads evenly on both sides. */
 .printivo__tl-bar {
   display: block;
+  justify-self: start;
   padding: clamp(8px, 0.9vw, 16px) clamp(10px, 1vw, 20px);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.09);
@@ -300,6 +312,70 @@
   font-size: clamp(11px, 0.95vw, 18px);
   line-height: 1.25;
   color: rgba(255, 255, 255, 0.88);
+}
+
+/* ── Research: splitting the participants ────────────────── */
+
+.printivo__research {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  /* 1920 frame: 607px copy / 580px video / 450px copy, 30px side margins */
+  grid-template-columns: 31.6% 30.2% 23.4%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12svh 1.56% 8svh;
+}
+
+.printivo__research-heading {
+  margin: 0 0 0.5em;
+  font-family: 'PP Editorial New', var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 2.3vw, 44px);
+  letter-spacing: 0.005em;
+}
+
+.printivo__research-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 1.3em;
+  font-weight: 600;
+  font-size: clamp(13px, 1.15vw, 22px);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.printivo__research-label svg {
+  width: clamp(18px, 1.4vw, 27px);
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.printivo__research-copy p:not(.printivo__research-label) {
+  margin: 0 0 1.35em;
+  font-weight: 400;
+  font-size: clamp(14px, 1.25vw, 24px);
+  line-height: 1.55;
+  text-align: justify;
+}
+
+.printivo__research-copy p:last-child {
+  margin-bottom: 0;
+}
+
+/* The source video is 720x900; the design crops it to a narrower portrait. */
+.printivo__research-video {
+  width: 100%;
+  max-height: 84svh;
+  aspect-ratio: 580 / 898;
+  object-fit: cover;
+  border-radius: clamp(14px, 1.25vw, 24px);
+  justify-self: center;
+  will-change: transform, opacity;
 }
 
 /* ── Small screens ───────────────────────────────────────── */
@@ -362,11 +438,26 @@
     font-size: 17px;
   }
 
-  .printivo__timeline-panel {
+  .printivo__timeline-frame {
     width: calc(100% - 40px);
   }
 
   .printivo__tl-bar {
     white-space: normal;
+  }
+
+  .printivo__research {
+    display: block;
+    padding: 14svh 20px 10svh;
+  }
+
+  .printivo__research-copy p:not(.printivo__research-label) {
+    font-size: 17px;
+    text-align: left;
+  }
+
+  .printivo__research-video {
+    margin: 30px 0;
+    max-height: none;
   }
 }
