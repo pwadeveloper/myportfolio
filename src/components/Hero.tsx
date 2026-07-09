@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import HandControl from './HandControl'
 import { PROJECTS } from '../data/projects'
 import { loadSounds, playSound, playClickSound } from '../lib/sound'
@@ -132,6 +132,23 @@ export default function Hero() {
             ))}
           </ul>
         </div>
+
+        <AnimatePresence>
+          {hovered !== null && (
+            <motion.img
+              key={PROJECTS[hovered].slug}
+              className="hero__preview"
+              src={PROJECTS[hovered].image}
+              alt={`${PROJECTS[hovered].name} preview`}
+              width={500}
+              height={700}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+            />
+          )}
+        </AnimatePresence>
 
         <p className="hero__clock">MY TIME ZONE: {clock}</p>
       </div>

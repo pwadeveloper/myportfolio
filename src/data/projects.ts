@@ -7,17 +7,19 @@ export interface Project {
   hoverSound: string
   /** Where the project opens on click / double-pinch. Replace '#slug' with real case-study URLs. */
   url: string
+  /** 500×700 preview shown on hover. Placeholders for now — replace with real project imagery. */
+  image: string
 }
 
 export const PROJECTS: Project[] = [
-  { name: 'Printivo', slug: 'printivo', hoverSound: SOUND.TAP, url: '#printivo' },
-  { name: 'Speedy Transfer', slug: 'speedy-transfer', hoverSound: SOUND.BUTTON, url: '#speedy-transfer' },
-  { name: 'Esoko', slug: 'esoko', hoverSound: SOUND.SELECT, url: '#esoko' },
-  { name: 'Traderex', slug: 'traderex', hoverSound: SOUND.TOGGLE_ON, url: '#traderex' },
-  { name: 'WorkWise', slug: 'workwise', hoverSound: SOUND.TOGGLE_OFF, url: '#workwise' },
-  { name: 'TravelWahoo', slug: 'travelwahoo', hoverSound: SOUND.SWIPE, url: '#travelwahoo' },
-  { name: 'eProd', slug: 'eprod', hoverSound: SOUND.TYPE, url: '#eprod' },
-  { name: 'Primer', slug: 'primer', hoverSound: SOUND.NOTIFICATION, url: '#primer' },
-  { name: 'Ebi', slug: 'ebi', hoverSound: SOUND.TRANSITION_UP, url: '#ebi' },
-  { name: 'Farmspeak', slug: 'farmspeak', hoverSound: SOUND.TRANSITION_DOWN, url: '#farmspeak' },
+  { name: 'Printivo', slug: 'printivo', hoverSound: SOUND.TAP, url: '#printivo', image: '/images/projects/printivo.svg' },
+  { name: 'Speedy Transfer', slug: 'speedy-transfer', hoverSound: SOUND.BUTTON, url: '#speedy-transfer', image: '/images/projects/speedy-transfer.svg' },
+  { name: 'Esoko', slug: 'esoko', hoverSound: SOUND.SELECT, url: '#esoko', image: '/images/projects/esoko.svg' },
+  { name: 'Traderex', slug: 'traderex', hoverSound: SOUND.TOGGLE_ON, url: '#traderex', image: '/images/projects/traderex.svg' },
+  { name: 'WorkWise', slug: 'workwise', hoverSound: SOUND.TOGGLE_OFF, url: '#workwise', image: '/images/projects/workwise.svg' },
+  { name: 'TravelWahoo', slug: 'travelwahoo', hoverSound: SOUND.SWIPE, url: '#travelwahoo', image: '/images/projects/travelwahoo.svg' },
+  { name: 'eProd', slug: 'eprod', hoverSound: SOUND.TYPE, url: '#eprod', image: '/images/projects/eprod.svg' },
+  { name: 'Primer', slug: 'primer', hoverSound: SOUND.NOTIFICATION, url: '#primer', image: '/images/projects/primer.svg' },
+  { name: 'Ebi', slug: 'ebi', hoverSound: SOUND.TRANSITION_UP, url: '#ebi', image: '/images/projects/ebi.svg' },
+  { name: 'Farmspeak', slug: 'farmspeak', hoverSound: SOUND.TRANSITION_DOWN, url: '#farmspeak', image: '/images/projects/farmspeak.svg' },
 ]

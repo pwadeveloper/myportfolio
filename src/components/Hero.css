@@ -19,6 +19,7 @@
   position: absolute;
   top: 2.4%;
   left: 1.77%;
+  z-index: 6;
   margin: 0;
   color: #fff;
   font-family: 'Delight', system-ui, sans-serif;
@@ -78,6 +79,20 @@
   cursor: pointer;
 }
 
+/* 500×700 at the 1920×1080 design frame, scaling with the container below it */
+.hero__preview {
+  position: absolute;
+  left: 1.77%;
+  bottom: 6.5%;
+  width: 26.042cqw;
+  max-width: 500px;
+  aspect-ratio: 500 / 700;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .hero__clock {
   position: absolute;
   bottom: 4.5%;
@@ -107,6 +122,10 @@
   .hero__clock {
     position: static;
     width: auto;
+  }
+
+  .hero__preview {
+    display: none;
   }
 
   .hero__headline {
