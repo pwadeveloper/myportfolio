@@ -560,16 +560,15 @@ export default function PrintivoPage() {
           </p>
         </div>
 
-        {/* Frosted-glass folder built from layered divs: paper sheets sit
-            behind a translucent front pocket whose backdrop-filter blurs
-            them — stand-in until the real icon asset lands. */}
-        <div className="printivo__folder" aria-hidden="true">
-          <div className="printivo__folder-back" />
-          <div className="printivo__folder-sheet printivo__folder-sheet--a" />
-          <div className="printivo__folder-sheet printivo__folder-sheet--b" />
-          <div className="printivo__folder-sheet printivo__folder-sheet--c" />
-          <div className="printivo__folder-front" />
-        </div>
+        <img
+          className="printivo__folder"
+          src="/images/projects/printivo/folder-image.png"
+          alt=""
+          aria-hidden="true"
+          width={271}
+          height={220}
+          loading="lazy"
+        />
 
         <div className="printivo__goals-lists">
           <div className="printivo__goals-list">
