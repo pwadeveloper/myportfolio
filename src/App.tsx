@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Hero from './components/Hero'
 import ProjectPage from './components/ProjectPage'
+import PrintivoPage from './components/PrintivoPage'
 import { PROJECTS } from './data/projects'
 
 function useHashRoute() {
@@ -20,8 +21,10 @@ function useHashRoute() {
 
 function App() {
   const route = useHashRoute()
-  const project = PROJECTS.find((p) => p.slug === route)
 
+  if (route === 'printivo') return <PrintivoPage />
+
+  const project = PROJECTS.find((p) => p.slug === route)
   if (project) return <ProjectPage project={project} />
   return <Hero />
 }
