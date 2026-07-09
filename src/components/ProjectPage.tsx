@@ -67,7 +67,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             <p>{project.category}</p>
           </div>
           <div>
-            <p className="project__meta-label">Design &amp; Direction</p>
+            <p className="project__meta-label">{project.role ?? 'Design & Direction'}</p>
             <p>Mudia Imasuen</p>
           </div>
           <a className="project__cta" href={project.url === `#${project.slug}` ? '#' : project.url}>
@@ -94,16 +94,22 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           {time} (+1 WAT)
         </p>
         <div className="project__intro">
-          <p>
-            A visual journey through {project.name} — {project.category.toLowerCase()}. Here, every
-            screen becomes a reflection of intent: a dialogue between vision and form.
-          </p>
-          <p>
-            In these pages, ideas take shape through color and texture, capturing the quiet rhythm
-            of the work. Each piece stands as both question and answer — an exploration of what
-            design reveals where words cannot. (Placeholder copy — replace with the real case
-            study.)
-          </p>
+          {project.intro ? (
+            project.intro.map((paragraph) => <p key={paragraph.slice(0, 32)}>{paragraph}</p>)
+          ) : (
+            <>
+              <p>
+                A visual journey through {project.name} — {project.category.toLowerCase()}. Here,
+                every screen becomes a reflection of intent: a dialogue between vision and form.
+              </p>
+              <p>
+                In these pages, ideas take shape through color and texture, capturing the quiet
+                rhythm of the work. Each piece stands as both question and answer — an exploration
+                of what design reveals where words cannot. (Placeholder copy — replace with the
+                real case study.)
+              </p>
+            </>
+          )}
         </div>
       </footer>
     </article>
