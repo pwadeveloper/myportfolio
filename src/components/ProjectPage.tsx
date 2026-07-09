@@ -70,9 +70,11 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             <p className="project__meta-label">{project.role ?? 'Design & Direction'}</p>
             <p>Mudia Imasuen</p>
           </div>
-          <a className="project__cta" href={project.url === `#${project.slug}` ? '#' : project.url}>
-            View Live Project
-          </a>
+          {project.liveUrl && (
+            <a className="project__cta" href={project.liveUrl} target="_blank" rel="noopener">
+              View Live Project
+            </a>
+          )}
         </div>
       </div>
 
@@ -112,6 +114,76 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           )}
         </div>
       </footer>
+
+      {project.sections && (
+        <div className="project__body">
+          {project.sections.map((section, i) => (
+            <motion.section
+              className="project__section"
+              key={section.heading}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 34 }}
+            >
+              <div className="project__section-side">
+                <p className="project__section-index">/{String(i + 1).padStart(2, '0')}</p>
+                <p className="project__section-kicker">{section.kicker}</p>
+              </div>
+              <div className="project__section-main">
+                <h2>{section.heading}</h2>
+                {section.body.map((paragraph) => (
+                  <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                ))}
+                {section.bullets && (
+                  <ul>
+                    {section.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              {section.image && (
+                <figure className="project__section-figure">
+                  <img src={section.image.src} alt={section.image.alt} loading="lazy" />
+                  {section.image.caption && <figcaption>{section.image.caption}</figcaption>}
+                </figure>
+              )}
+            </motion.section>
+          ))}
+
+          {project.stats && (
+            <section className="project__section project__section--stats">
+              <div className="project__section-side">
+                <p className="project__section-index">/{String(project.sections.length + 1).padStart(2, '0')}</p>
+                <p className="project__section-kicker">Results</p>
+              </div>
+              <div className="project__stats">
+                <div>
+                  <h3>{project.stats.beforeLabel}</h3>
+                  <ul>
+                    {project.stats.before.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="project__stats-after">
+                  <h3>{project.stats.afterLabel}</h3>
+                  <ul>
+                    {project.stats.after.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </section>
+          )}
+
+          <p className="project__back">
+            <a href="#">← Return to selected works</a>
+          </p>
+        </div>
+      )}
     </article>
   )
 }

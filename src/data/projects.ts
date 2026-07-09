@@ -1,12 +1,29 @@
 import { SOUND } from '../lib/sound'
+import { printivoCaseStudy, printivoStats } from './printivoCaseStudy'
+
+export interface CaseStudySection {
+  /** Small label above the section heading, e.g. "The Problem" */
+  kicker: string
+  heading: string
+  body: string[]
+  bullets?: string[]
+  image?: { src: string; alt: string; caption?: string }
+}
+
+export interface CaseStudyStats {
+  beforeLabel: string
+  afterLabel: string
+  before: string[]
+  after: string[]
+}
 
 export interface Project {
   name: string
   slug: string
   /** snd-lib sound key played on hover — one distinct sound per project */
   hoverSound: string
-  /** Where the project opens on click / double-pinch. Replace '#slug' with real case-study URLs. */
-  url: string
+  /** External live-project link shown on the case-study page, when one exists. */
+  liveUrl?: string
   /** 500×700 preview shown on hover. Placeholders for now — replace with real project imagery. */
   image: string
   /** Wide hero used at the top of the project page. Placeholder — replace with real imagery. */
@@ -17,6 +34,10 @@ export interface Project {
   role?: string
   /** Intro paragraphs for the project page, sourced from the portfolio presentation. */
   intro?: string[]
+  /** Full case-study sections rendered below the opener. */
+  sections?: CaseStudySection[]
+  /** Before/after results block rendered after the sections. */
+  stats?: CaseStudyStats
 }
 
 export const PROJECTS: Project[] = [
@@ -24,7 +45,7 @@ export const PROJECTS: Project[] = [
     name: 'Printivo',
     slug: 'printivo',
     hoverSound: SOUND.TAP,
-    url: 'https://printivo.com',
+    liveUrl: 'https://printivo.com',
     image: '/images/projects/printivo.svg',
     imageWide: '/images/projects/printivo-wide.svg',
     category: 'E-commerce · Web-to-Print',
@@ -33,12 +54,13 @@ export const PROJECTS: Project[] = [
       'Printivo.com is Nigeria’s first web-to-print platform, launched in 2013 to give individuals and small businesses easy access to quality prints for stationery and merchandise — serving over 10,000 customers. When bounce rates climbed to 89.3% and customer feedback turned to complaints, I led a full redesign of the digital experience.',
       'Fourteen customer interviews, internal research across marketing, support and tech, and a UX audit shaped a rebuilt homepage, search, product and checkout flow, plus a component design system. After launch, average monthly users grew 580%, new users 160%, and the bounce rate fell to 10.72%.',
     ],
+    sections: printivoCaseStudy,
+    stats: printivoStats,
   },
   {
     name: 'Speedy Transfer',
     slug: 'speedy-transfer',
     hoverSound: SOUND.BUTTON,
-    url: '#speedy-transfer',
     image: '/images/projects/speedy-transfer.svg',
     imageWide: '/images/projects/speedy-transfer-wide.svg',
     category: 'Fintech · Remittance App',
@@ -48,12 +70,12 @@ export const PROJECTS: Project[] = [
       'On a three-week timeline I designed the app end to end — onboarding with KYC, instant bank transfers, bill payments and card management — grounding a handed-down PRD in quick interviews with friends in the diaspora, and handing off through a component-based design system in Zeplin.',
     ],
   },
-  { name: 'Esoko', slug: 'esoko', hoverSound: SOUND.SELECT, url: '#esoko', image: '/images/projects/esoko.svg', imageWide: '/images/projects/esoko-wide.svg', category: 'Agritech Platform' },
-  { name: 'Traderex', slug: 'traderex', hoverSound: SOUND.TOGGLE_ON, url: '#traderex', image: '/images/projects/traderex.svg', imageWide: '/images/projects/traderex-wide.svg', category: 'Trading Platform' },
-  { name: 'WorkWise', slug: 'workwise', hoverSound: SOUND.TOGGLE_OFF, url: '#workwise', image: '/images/projects/workwise.svg', imageWide: '/images/projects/workwise-wide.svg', category: 'SaaS Product Design' },
-  { name: 'TravelWahoo', slug: 'travelwahoo', hoverSound: SOUND.SWIPE, url: '#travelwahoo', image: '/images/projects/travelwahoo.svg', imageWide: '/images/projects/travelwahoo-wide.svg', category: 'Travel Platform' },
-  { name: 'eProd', slug: 'eprod', hoverSound: SOUND.TYPE, url: '#eprod', image: '/images/projects/eprod.svg', imageWide: '/images/projects/eprod-wide.svg', category: 'Production Tooling' },
-  { name: 'Primer', slug: 'primer', hoverSound: SOUND.NOTIFICATION, url: '#primer', image: '/images/projects/primer.svg', imageWide: '/images/projects/primer-wide.svg', category: 'Brand Identity' },
-  { name: 'Ebi', slug: 'ebi', hoverSound: SOUND.TRANSITION_UP, url: '#ebi', image: '/images/projects/ebi.svg', imageWide: '/images/projects/ebi-wide.svg', category: 'Mobile App Design' },
-  { name: 'Farmspeak', slug: 'farmspeak', hoverSound: SOUND.TRANSITION_DOWN, url: '#farmspeak', image: '/images/projects/farmspeak.svg', imageWide: '/images/projects/farmspeak-wide.svg', category: 'Agritech Product' },
+  { name: 'Esoko', slug: 'esoko', hoverSound: SOUND.SELECT, image: '/images/projects/esoko.svg', imageWide: '/images/projects/esoko-wide.svg', category: 'Agritech Platform' },
+  { name: 'Traderex', slug: 'traderex', hoverSound: SOUND.TOGGLE_ON, image: '/images/projects/traderex.svg', imageWide: '/images/projects/traderex-wide.svg', category: 'Trading Platform' },
+  { name: 'WorkWise', slug: 'workwise', hoverSound: SOUND.TOGGLE_OFF, image: '/images/projects/workwise.svg', imageWide: '/images/projects/workwise-wide.svg', category: 'SaaS Product Design' },
+  { name: 'TravelWahoo', slug: 'travelwahoo', hoverSound: SOUND.SWIPE, image: '/images/projects/travelwahoo.svg', imageWide: '/images/projects/travelwahoo-wide.svg', category: 'Travel Platform' },
+  { name: 'eProd', slug: 'eprod', hoverSound: SOUND.TYPE, image: '/images/projects/eprod.svg', imageWide: '/images/projects/eprod-wide.svg', category: 'Production Tooling' },
+  { name: 'Primer', slug: 'primer', hoverSound: SOUND.NOTIFICATION, image: '/images/projects/primer.svg', imageWide: '/images/projects/primer-wide.svg', category: 'Brand Identity' },
+  { name: 'Ebi', slug: 'ebi', hoverSound: SOUND.TRANSITION_UP, image: '/images/projects/ebi.svg', imageWide: '/images/projects/ebi-wide.svg', category: 'Mobile App Design' },
+  { name: 'Farmspeak', slug: 'farmspeak', hoverSound: SOUND.TRANSITION_DOWN, image: '/images/projects/farmspeak.svg', imageWide: '/images/projects/farmspeak-wide.svg', category: 'Agritech Product' },
 ]

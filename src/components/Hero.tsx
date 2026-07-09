@@ -83,7 +83,7 @@ export default function Hero() {
 
   const openProject = useCallback((index: number) => {
     playClickSound()
-    window.open(PROJECTS[index].url, '_blank', 'noopener')
+    window.open(`#${PROJECTS[index].slug}`, '_blank', 'noopener')
   }, [])
 
   const indexAtPoint = useCallback((pos: { x: number; y: number }) => {
@@ -154,7 +154,7 @@ export default function Hero() {
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               >
                 <a
-                  href={project.url}
+                  href={`#${project.slug}`}
                   target="_blank"
                   rel="noopener"
                   onMouseEnter={() => hoverItem(i)}

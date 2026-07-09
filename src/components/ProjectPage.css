@@ -155,6 +155,133 @@
   margin: 0 0 14px;
 }
 
+/* ── Case-study body ─────────────────────────────────────── */
+
+.project__body {
+  margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 110px;
+}
+
+.project__section {
+  display: grid;
+  grid-template-columns: 5fr 4fr;
+  gap: 20px;
+}
+
+.project__section-side {
+  align-self: start;
+}
+
+.project__section-index {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.project__section-kicker {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e5ca00;
+}
+
+.project__section-main h2 {
+  margin: 0 0 18px;
+  font-size: clamp(26px, 2.4vw, 40px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.project__section-main p {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.project__section-main ul {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project__section-main li {
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.project__section-figure {
+  grid-column: 1 / -1;
+  margin: 34px 0 0;
+}
+
+.project__section-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project__section-figure figcaption {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.project__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.project__stats h3 {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.project__stats-after h3 {
+  color: #e5ca00;
+}
+
+.project__stats ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project__stats li {
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.project__back {
+  margin: 0;
+  font-size: 14px;
+}
+
+.project__back a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.project__back a:hover {
+  color: #e5ca00;
+}
+
 /* ── Small screens ───────────────────────────────────────── */
 
 @media (max-width: 860px) {
@@ -178,5 +305,19 @@
 
   .project__meta {
     margin-top: 20px;
+  }
+
+  .project__body {
+    margin-top: 64px;
+    gap: 64px;
+  }
+
+  .project__section,
+  .project__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .project__section-side {
+    margin-bottom: 8px;
   }
 }
