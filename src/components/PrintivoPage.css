@@ -314,6 +314,12 @@
   color: rgba(255, 255, 255, 0.88);
 }
 
+/* Bars that should hold a single line even if the text outgrows their span
+   (the small-screen block below restores wrapping where space is scarce). */
+.printivo__tl-bar--nowrap {
+  white-space: nowrap;
+}
+
 /* ── Research: splitting the participants ────────────────── */
 
 .printivo__research {

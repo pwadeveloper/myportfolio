@@ -378,7 +378,10 @@ export default function PrintivoPage() {
               </span>
             </div>
             <div className="printivo__tl-row">
-              <span className="printivo__tl-bar" style={{ gridColumn: '4 / span 5' }}>
+              <span
+                className="printivo__tl-bar printivo__tl-bar--nowrap"
+                style={{ gridColumn: '4 / span 6' }}
+              >
                 Research with the internal departments
               </span>
               <span className="printivo__tl-bar" style={{ gridColumn: '10 / span 3' }}>
