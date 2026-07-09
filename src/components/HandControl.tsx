@@ -6,13 +6,18 @@ interface HandControlProps {
   onCursor: (pos: { x: number; y: number } | null) => void
   /** Fired when the user pinches twice quickly — treated as a click at the cursor position. */
   onPinchClick: (pos: { x: number; y: number }) => void
+  /** Fired when the pinch state changes (thumb + index touching or releasing). */
+  onPinch?: (pinching: boolean, pos: { x: number; y: number } | null) => void
 }
 
 const PINCH_THRESHOLD = 0.3
 const DOUBLE_PINCH_MS = 500
 const SMOOTHING = 0.35
+/* Remembers the user's choice so hand control re-arms on every page —
+   including project pages opened in new tabs. */
+const STORAGE_KEY = 'hand-control-enabled'
 
-export default function HandControl({ onCursor, onPinchClick }: HandControlProps) {
+export default function HandControl({ onCursor, onPinchClick, onPinch }: HandControlProps) {
   const [enabled, setEnabled] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'running' | 'error'>('idle')
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null)
@@ -34,6 +39,27 @@ export default function HandControl({ onCursor, onPinchClick }: HandControlProps
     setStatus('idle')
     onCursor(null)
   }, [onCursor])
+
+  // Auto-resume on pages where the user already enabled hand control, but
+  // only when the camera permission is still granted — never surprise the
+  // visitor with a permission prompt they didn't ask for.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(STORAGE_KEY) !== '1' || !navigator.permissions) return
+    } catch {
+      return
+    }
+    let cancelled = false
+    navigator.permissions
+      .query({ name: 'camera' as PermissionName })
+      .then((st) => {
+        if (!cancelled && st.state === 'granted') setEnabled(true)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     if (!enabled) {
@@ -100,6 +126,7 @@ export default function HandControl({ onCursor, onPinchClick }: HandControlProps
               const pinchDist = Math.hypot(thumb.x - tip.x, thumb.y - tip.y)
               const isPinching = pinchDist < handSize * PINCH_THRESHOLD
               setPinched(isPinching)
+              if (isPinching !== wasPinching.current) onPinch?.(isPinching, smoothed.current)
               if (isPinching && !wasPinching.current) {
                 const now = performance.now()
                 if (now - lastPinchAt.current < DOUBLE_PINCH_MS) {
@@ -111,6 +138,7 @@ export default function HandControl({ onCursor, onPinchClick }: HandControlProps
               }
               wasPinching.current = isPinching
             } else {
+              if (wasPinching.current) onPinch?.(false, null)
               smoothed.current = null
               setCursor(null)
               setPinched(false)
@@ -134,14 +162,22 @@ export default function HandControl({ onCursor, onPinchClick }: HandControlProps
       cancelled = true
       stop()
     }
-  }, [enabled, onCursor, onPinchClick, stop])
+  }, [enabled, onCursor, onPinchClick, onPinch, stop])
 
   return (
     <>
       <button
         type="button"
         className="hand-control__toggle"
-        onClick={() => setEnabled((v) => !v)}
+        onClick={() => {
+          const next = !enabled
+          try {
+            localStorage.setItem(STORAGE_KEY, next ? '1' : '0')
+          } catch {
+            // private-mode storage failures just lose the cross-page memory
+          }
+          setEnabled(next)
+        }}
         aria-pressed={enabled}
       >
         {status === 'loading' ? 'Starting camera…' : enabled ? 'Disable hand control' : '✋ Enable hand control'}

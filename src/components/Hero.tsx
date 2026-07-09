@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
-import HandControl from './HandControl'
 import { PROJECTS } from '../data/projects'
 import { loadSounds, playSound, playClickSound } from '../lib/sound'
 import './Hero.css'
@@ -32,7 +31,6 @@ function useClock() {
 export default function Hero() {
   const clock = useClock()
   const [hovered, setHovered] = useState<number | null>(null)
-  const listRef = useRef<HTMLUListElement>(null)
 
   // The preview image trails the cursor (mouse or hand): a persistent rAF
   // loop eases the display position toward the last pointer position.
@@ -86,32 +84,6 @@ export default function Hero() {
     window.open(`#${PROJECTS[index].slug}`, '_blank', 'noopener')
   }, [])
 
-  const indexAtPoint = useCallback((pos: { x: number; y: number }) => {
-    const items = listRef.current?.querySelectorAll('li')
-    if (!items) return null
-    for (let i = 0; i < items.length; i++) {
-      const r = items[i].getBoundingClientRect()
-      if (pos.x >= r.left && pos.x <= r.right && pos.y >= r.top && pos.y <= r.bottom) return i
-    }
-    return null
-  }, [])
-
-  const onHandCursor = useCallback(
-    (pos: { x: number; y: number } | null) => {
-      if (pos) moveCursor(pos.x, pos.y)
-      hoverItem(pos ? indexAtPoint(pos) : null)
-    },
-    [moveCursor, hoverItem, indexAtPoint],
-  )
-
-  const onPinchClick = useCallback(
-    (pos: { x: number; y: number }) => {
-      const index = indexAtPoint(pos)
-      if (index !== null) openProject(index)
-    },
-    [indexAtPoint, openProject],
-  )
-
   return (
     <section
       className="hero"
@@ -143,7 +115,7 @@ export default function Hero() {
 
         <div className="hero__work">
           <p className="hero__label">Selected work</p>
-          <ul className="hero__work-list" ref={listRef}>
+          <ul className="hero__work-list">
             {PROJECTS.map((project, i) => (
               <motion.li
                 key={project.slug}
@@ -191,8 +163,6 @@ export default function Hero() {
 
         <p className="hero__clock">MY TIME ZONE: {clock}</p>
       </div>
-
-      <HandControl onCursor={onHandCursor} onPinchClick={onPinchClick} />
     </section>
   )
 }

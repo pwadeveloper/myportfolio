@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Hero from './components/Hero'
 import ProjectPage from './components/ProjectPage'
 import PrintivoPage from './components/PrintivoPage'
+import HandCursor from './components/HandCursor'
 import { PROJECTS } from './data/projects'
 
 function useHashRoute() {
@@ -22,11 +23,24 @@ function useHashRoute() {
 function App() {
   const route = useHashRoute()
 
-  if (route === 'printivo') return <PrintivoPage />
-
   const project = PROJECTS.find((p) => p.slug === route)
-  if (project) return <ProjectPage project={project} />
-  return <Hero />
+  const page =
+    route === 'printivo' ? (
+      <PrintivoPage />
+    ) : project ? (
+      <ProjectPage project={project} />
+    ) : (
+      <Hero />
+    )
+
+  // HandCursor lives outside the routed page so hand control is available
+  // everywhere and keeps running across navigations.
+  return (
+    <>
+      {page}
+      <HandCursor />
+    </>
+  )
 }
 
 export default App

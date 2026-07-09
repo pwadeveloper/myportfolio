@@ -32,7 +32,11 @@ The bottom-left corner shows the visitor's live local time and timezone.
 - **Motion** — framer-motion springs the hovered item sideways and dims the rest.
 - **Hand control** — the "Enable hand control" button (bottom right) asks for camera permission and
   runs Google MediaPipe hand tracking fully in-browser (model + wasm self-hosted in `public/models`
-  and `public/mediapipe`; no video ever leaves the page). Your index fingertip drives a cursor node
-  that highlights projects; pinching thumb + index twice quickly acts as a click, which plays a
-  sound and opens the project in a new page. Project URLs are `#slug` placeholders in
-  `src/data/projects.ts` — replace them with real case-study links.
+  and `public/mediapipe`; no video ever leaves the page). It is available on every page:
+  `src/components/HandCursor.tsx` mounts once at the app level and translates the fingertip into
+  synthetic pointer events, so each page's ordinary hover/click handlers respond without
+  hand-specific code. Your index fingertip drives the cursor; pinching thumb + index twice quickly
+  clicks whatever is under it; pinching once and dragging vertically scrolls the page. The choice
+  persists (localStorage) and auto-resumes on pages/tabs where camera permission is already
+  granted. Project URLs are `#slug` placeholders in `src/data/projects.ts` — replace them with real
+  case-study links.
