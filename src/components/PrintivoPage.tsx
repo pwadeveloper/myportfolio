@@ -19,22 +19,24 @@ export default function PrintivoPage() {
           start: 'top top',
           end: '+=200%',
           pin: true,
-          scrub: 0.6,
+          // a longer catch-up lag lets the springy eases settle with some inertia
+          scrub: 1.1,
         },
       })
       timeline
         // the trailing dots resolve as the story starts moving
         .to('.printivo__quote-dots', { opacity: 0, duration: 0.08, ease: 'none' }, 0.05)
+        // back.out overshoots past the resting line and settles — springy rise
         .fromTo(
           '.printivo__img--press',
           { yPercent: 110 },
-          { yPercent: 0, duration: 0.5, ease: 'none' },
+          { yPercent: 0, duration: 0.5, ease: 'back.out(1.8)' },
           0.1,
         )
         .fromTo(
           '.printivo__img--scholar',
           { yPercent: 110 },
-          { yPercent: 0, duration: 0.5, ease: 'none' },
+          { yPercent: 0, duration: 0.5, ease: 'back.out(2.2)' },
           0.22,
         )
         // text blur-fades away to make way for the next section
