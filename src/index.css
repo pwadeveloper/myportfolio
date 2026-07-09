@@ -14,9 +14,18 @@
   font-display: swap;
 }
 
+/* Quote-slide serif: PP Editorial New. Activates once the font file lands in
+   /public/fonts — until then the stack below stands in.
+@font-face {
+  font-family: 'PP Editorial New';
+  src: url('/fonts/PPEditorialNew-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
 :root {
-  /* Placeholder stack for the quote-slide serif — swap in the uploaded
-     typeface via @font-face and put its name first. */
   --serif: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, 'Times New Roman', serif;
 }
 

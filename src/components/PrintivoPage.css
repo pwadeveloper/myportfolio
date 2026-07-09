@@ -86,16 +86,18 @@
   justify-content: center;
 }
 
+/* Figma spec: PP Editorial New Regular, 96/100 (5vw at the 1920 frame),
+   +0.5% letter-spacing, centered. */
 .printivo__quote {
   margin: 0 auto;
   max-width: 90%;
-  transform: translateY(-16%);
-  font-family: var(--serif);
+  transform: translateY(-6%);
+  font-family: 'PP Editorial New', var(--serif);
   font-weight: 400;
-  font-size: clamp(38px, 6.8vw, 132px);
-  line-height: 1.03;
+  font-size: clamp(34px, 5vw, 96px);
+  line-height: 1.042;
   text-align: center;
-  letter-spacing: 0;
+  letter-spacing: 0.005em;
   will-change: filter, opacity;
 }
 
