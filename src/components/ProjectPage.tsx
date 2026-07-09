@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PROJECTS, type Project } from '../data/projects'
 import './ProjectPage.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /** Live clock pinned to Mudia's timezone (Kaduna — WAT, UTC+1). */
 function useKadunaClock() {
@@ -28,9 +32,81 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   const time = useKadunaClock()
   const index = PROJECTS.indexOf(project) + 1
   const number = String(index).padStart(2, '0')
+  const rootRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+
+    const ctx = gsap.context(() => {
+      // ── Quote slide: pin it, raise the history images, then blur the text away
+      const quote = root.querySelector('.project__quote')
+      if (quote) {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: quote,
+            start: 'top top',
+            end: '+=180%',
+            pin: true,
+            scrub: 0.6,
+          },
+        })
+        timeline
+          .fromTo(
+            quote.querySelectorAll('.project__quote-img'),
+            { yPercent: 110 },
+            { yPercent: 0, duration: 0.55, stagger: 0.12, ease: 'none' },
+          )
+          .to(
+            quote.querySelector('.project__quote-text'),
+            { filter: 'blur(16px)', opacity: 0, duration: 0.35, ease: 'none' },
+            0.62,
+          )
+      }
+
+      // ── Case-study slides: content rises in, then blur-fades out past the viewport
+      root.querySelectorAll<HTMLElement>('.project__section').forEach((section) => {
+        const inner = section.querySelectorAll('.project__section-side, .project__section-main, .project__stats')
+        gsap.fromTo(
+          inner,
+          { opacity: 0, y: 64 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.08,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: section, start: 'top 78%', end: 'top 45%', scrub: 0.5 },
+          },
+        )
+        gsap.to(inner, {
+          filter: 'blur(14px)',
+          opacity: 0,
+          ease: 'power1.in',
+          scrollTrigger: { trigger: section, start: 'bottom 38%', end: 'bottom 8%', scrub: 0.5 },
+        })
+
+        const figure = section.querySelector('.project__section-figure img')
+        if (figure) {
+          gsap.fromTo(
+            figure,
+            { yPercent: 18, scale: 0.94, opacity: 0 },
+            {
+              yPercent: 0,
+              scale: 1,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: { trigger: figure, start: 'top 92%', end: 'top 45%', scrub: 0.5 },
+            },
+          )
+        }
+      })
+    }, root)
+
+    return () => ctx.revert()
+  }, [project])
 
   return (
-    <article className="project">
+    <article className="project" ref={rootRef}>
       <header className="project__topbar">
         <a className="project__brand" href="#">
           Mudia Imasuen<sup>®</sup>
@@ -115,17 +191,29 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div>
       </footer>
 
+      {project.slideIntro && (
+        <section className="project__quote" aria-label={`${project.name} introduction`}>
+          <p className="project__quote-label">{project.name}</p>
+          <h2 className="project__quote-text">{project.slideIntro.text}</h2>
+          <div className="project__quote-images">
+            {project.slideIntro.images.map((image) => (
+              <img
+                key={image.src}
+                className="project__quote-img"
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
       {project.sections && (
         <div className="project__body">
           {project.sections.map((section, i) => (
-            <motion.section
-              className="project__section"
-              key={section.heading}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ type: 'spring', stiffness: 220, damping: 34 }}
-            >
+            <section className="project__section" key={section.heading}>
               <div className="project__section-side">
                 <p className="project__section-index">/{String(i + 1).padStart(2, '0')}</p>
                 <p className="project__section-kicker">{section.kicker}</p>
@@ -149,7 +237,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   {section.image.caption && <figcaption>{section.image.caption}</figcaption>}
                 </figure>
               )}
-            </motion.section>
+            </section>
           ))}
 
           {project.stats && (
@@ -183,6 +271,17 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             <a href="#">← Return to selected works</a>
           </p>
         </div>
+      )}
+
+      {project.slideIntro && (
+        <img
+          className="project__cmyk"
+          src="/images/cmyk-strip.svg"
+          alt=""
+          aria-hidden="true"
+          width={96}
+          height={14}
+        />
       )}
     </article>
   )

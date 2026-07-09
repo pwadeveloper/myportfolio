@@ -34,6 +34,11 @@ export interface Project {
   role?: string
   /** Intro paragraphs for the project page, sourced from the portfolio presentation. */
   intro?: string[]
+  /** Pinned quote slide shown after the opener: text blur-fades while images rise on scroll. */
+  slideIntro?: {
+    text: string
+    images: { src: string; alt: string; width: number; height: number }[]
+  }
   /** Full case-study sections rendered below the opener. */
   sections?: CaseStudySection[]
   /** Before/after results block rendered after the sections. */
@@ -54,6 +59,13 @@ export const PROJECTS: Project[] = [
       'Printivo.com is Nigeria’s first web-to-print platform, launched in 2013 to give individuals and small businesses easy access to quality prints for stationery and merchandise — serving over 10,000 customers. When bounce rates climbed to 89.3% and customer feedback turned to complaints, I led a full redesign of the digital experience.',
       'Fourteen customer interviews, internal research across marketing, support and tech, and a UX audit shaped a rebuilt homepage, search, product and checkout flow, plus a component design system. After launch, average monthly users grew 580%, new users 160%, and the bounce rate fell to 10.72%.',
     ],
+    slideIntro: {
+      text: 'It is common knowledge how much print technology changed the world.',
+      images: [
+        { src: '/images/projects/printivo/history-scholar.webp', alt: 'A scholar reading among books in a 17th-century study', width: 662, height: 593 },
+        { src: '/images/projects/printivo/history-press.webp', alt: 'Engraving of an early printing workshop', width: 1258, height: 593 },
+      ],
+    },
     sections: printivoCaseStudy,
     stats: printivoStats,
   },

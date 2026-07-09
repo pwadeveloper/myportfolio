@@ -14,6 +14,12 @@
   font-display: swap;
 }
 
+:root {
+  /* Placeholder stack for the quote-slide serif — swap in the uploaded
+     typeface via @font-face and put its name first. */
+  --serif: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
 * {
   box-sizing: border-box;
 }
