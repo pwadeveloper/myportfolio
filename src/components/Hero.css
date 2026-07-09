@@ -1,0 +1,125 @@
+.hero {
+  width: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+}
+
+.hero__frame {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  container-type: inline-size;
+  container-name: hero;
+}
+
+.hero__headline {
+  position: absolute;
+  top: 6.4%;
+  left: 1.5625%;
+  right: 1.5625%;
+  margin: 0;
+  color: #fff;
+  font-family: 'Delight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 6.5104cqw, 125px);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.hero__headline--fat {
+  font-family: 'Fat', 'Delight', system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.hero__portrait {
+  position: absolute;
+  top: 30.6%;
+  left: 32.9%;
+  width: 25.8%;
+  height: auto;
+  aspect-ratio: 497 / 676;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__work {
+  position: absolute;
+  top: 45.1%;
+  left: 66.8%;
+  right: 1.5625%;
+  color: #fff;
+}
+
+.hero__label {
+  margin: 0 0 1.2em;
+  font-family: 'Delight', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 1.1458cqw, 22px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero__work-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: 'Delight', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 4.1667cqw, 80px);
+  line-height: 1.05;
+}
+
+.hero__clock {
+  position: absolute;
+  bottom: 7.3%;
+  left: 1.5625%;
+  margin: 0;
+  color: #fff;
+  font-family: 'Delight', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 1.1458cqw, 22px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .hero__frame {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 28px 20px 32px;
+  }
+
+  .hero__headline,
+  .hero__portrait,
+  .hero__work,
+  .hero__clock {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: auto;
+  }
+
+  .hero__headline {
+    font-size: clamp(30px, 9vw, 48px);
+  }
+
+  .hero__portrait {
+    width: 60%;
+    max-width: 320px;
+    align-self: flex-start;
+  }
+
+  .hero__work-list {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+}
