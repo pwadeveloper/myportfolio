@@ -237,6 +237,57 @@ export default function PrintivoPage() {
           scrollTrigger: { trigger: '.printivo__inquiry', start: 'top 55%' },
         },
       )
+
+      // ── Well defined goals: folder drifts in and keeps floating, the
+      // heading/copy cascade up, then each goal list ticks through its items
+      gsap.fromTo(
+        '.printivo__folder',
+        { opacity: 0, y: 80, scale: 0.92 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.3,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__goals', start: 'top 62%' },
+          onComplete: () => {
+            gsap.to('.printivo__folder', {
+              y: '+=14',
+              duration: 3.4,
+              ease: 'sine.inOut',
+              yoyo: true,
+              repeat: -1,
+            })
+          },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__goals-heading, .printivo__goals-intro, .printivo__goals-footnote',
+        { opacity: 0, y: 56 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__goals', start: 'top 45%' },
+        },
+      )
+      gsap.utils.toArray<HTMLElement>('.printivo__goals-list').forEach((list, i) => {
+        gsap.fromTo(
+          list.querySelectorAll('h3, li'),
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            delay: 0.25 + i * 0.2,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: '.printivo__goals', start: 'top 45%' },
+          },
+        )
+      })
     }, root)
 
     // Fetch the audio sprite early so the first hover plays without a hitch.
@@ -496,6 +547,55 @@ export default function PrintivoPage() {
             />
           </div>
         ))}
+      </section>
+
+      <section className="printivo__goals" aria-label="Well defined goals">
+        {/* Frosted-glass folder built from layered divs: paper sheets sit
+            behind a translucent front pocket whose backdrop-filter blurs
+            them — stand-in until the real icon asset lands. */}
+        <div className="printivo__folder" aria-hidden="true">
+          <div className="printivo__folder-back" />
+          <div className="printivo__folder-sheet printivo__folder-sheet--a" />
+          <div className="printivo__folder-sheet printivo__folder-sheet--b" />
+          <div className="printivo__folder-sheet printivo__folder-sheet--c" />
+          <div className="printivo__folder-front" />
+        </div>
+
+        <h2 className="printivo__goals-heading">Well defined goals.</h2>
+
+        <div className="printivo__goals-grid">
+          <p className="printivo__goals-intro">
+            When I was done with all my interviews, I compiled it into a UX audit and had a
+            meeting with the Printivo team, we went over all the data and decided on goals for
+            the redesign/rebuild that will help us increase platform value, grow the customer
+            base and increase conversion and reduce bounce rate. Put simply we planned to:
+          </p>
+          <div className="printivo__goals-list">
+            <h3>1.&ensp;Increase Conversion</h3>
+            <ol>
+              <li>Create a more intuitive and delightful design</li>
+              <li>The new platform should convert leads to purchases</li>
+              <li>The new platform should reduce churn/bounce rates</li>
+            </ol>
+          </div>
+          <div className="printivo__goals-list">
+            <h3>2.&ensp;Improve Customer Satisfaction</h3>
+            <ol>
+              <li>Quicker task completion</li>
+              <li>Less User frustrations/confusion</li>
+              <li>A more intuitive way of finding relevant information</li>
+              <li>
+                Improve delivery speed<span className="printivo__goals-star">*</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <p className="printivo__goals-footnote">
+          <span className="printivo__goals-star">*</span>This was to improve off-platform
+          experience and we ended up building infrastructure to help make this possible as well
+          as scale our services.
+        </p>
       </section>
 
       <img
