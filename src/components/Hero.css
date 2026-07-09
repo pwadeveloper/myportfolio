@@ -52,6 +52,7 @@
   left: 42.34%;
   right: 14%;
   color: #fff;
+  z-index: 10;
 }
 
 .hero__label {
@@ -79,11 +80,14 @@
   cursor: pointer;
 }
 
-/* 500×700 at the 1920×1080 design frame, scaling with the container below it */
+/* 500×700 at the 1920×1080 design frame; floats centered on the cursor.
+   framer-motion drives x/y via `transform`; the CSS `translate` property
+   composes with it to keep the image centered on the pointer. */
 .hero__preview {
-  position: absolute;
-  left: 1.77%;
-  bottom: 6.5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  translate: -50% -50%;
   width: 26.042cqw;
   max-width: 500px;
   aspect-ratio: 500 / 700;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import HandControl from './HandControl'
 import { PROJECTS } from '../data/projects'
 import { loadSounds, playSound, playClickSound } from '../lib/sound'
@@ -34,6 +34,39 @@ export default function Hero() {
   const [hovered, setHovered] = useState<number | null>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
+  // The preview image trails the cursor (mouse or hand): a persistent rAF
+  // loop eases the display position toward the last pointer position.
+  const cursorTarget = useRef({ x: 0, y: 0 })
+  const hasCursor = useRef(false)
+  const previewX = useMotionValue(0)
+  const previewY = useMotionValue(0)
+
+  useEffect(() => {
+    let raf = 0
+    const loop = () => {
+      const t = cursorTarget.current
+      previewX.set(previewX.get() + (t.x - previewX.get()) * 0.14)
+      previewY.set(previewY.get() + (t.y - previewY.get()) * 0.14)
+      raf = requestAnimationFrame(loop)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(raf)
+  }, [previewX, previewY])
+
+  const moveCursor = useCallback(
+    (x: number, y: number) => {
+      cursorTarget.current = { x, y }
+      // Snap instead of trail on the very first position so the preview
+      // doesn't fly in from the corner.
+      if (!hasCursor.current) {
+        hasCursor.current = true
+        previewX.set(x)
+        previewY.set(y)
+      }
+    },
+    [previewX, previewY],
+  )
+
   useEffect(() => {
     loadSounds()
   }, [])
@@ -65,9 +98,10 @@ export default function Hero() {
 
   const onHandCursor = useCallback(
     (pos: { x: number; y: number } | null) => {
+      if (pos) moveCursor(pos.x, pos.y)
       hoverItem(pos ? indexAtPoint(pos) : null)
     },
-    [hoverItem, indexAtPoint],
+    [moveCursor, hoverItem, indexAtPoint],
   )
 
   const onPinchClick = useCallback(
@@ -79,7 +113,11 @@ export default function Hero() {
   )
 
   return (
-    <section className="hero" aria-label="Introduction">
+    <section
+      className="hero"
+      aria-label="Introduction"
+      onMouseMove={(e) => moveCursor(e.clientX, e.clientY)}
+    >
       <div className="hero__frame">
         <h1 className="hero__headline">
           MUDIA
@@ -142,9 +180,10 @@ export default function Hero() {
               alt={`${PROJECTS[hovered].name} preview`}
               width={500}
               height={700}
-              initial={{ opacity: 0, y: 24, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              style={{ x: previewX, y: previewY }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
             />
           )}
