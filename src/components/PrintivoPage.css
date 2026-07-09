@@ -320,11 +320,11 @@
   position: relative;
   min-height: 100svh;
   display: grid;
-  /* 1920 frame: 607px copy / 580px video / 450px copy, 30px side margins */
+  /* 1920 frame: 607px copy / 580px video / 450px copy, 40px side margins */
   grid-template-columns: 31.6% 30.2% 23.4%;
   justify-content: space-between;
   align-items: center;
-  padding: 12svh 1.56% 8svh;
+  padding: 12svh 2.08% 8svh;
 }
 
 .printivo__research-heading {
