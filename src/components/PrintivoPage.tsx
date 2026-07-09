@@ -43,6 +43,43 @@ export default function PrintivoPage() {
           { filter: 'blur(16px)', opacity: 0, duration: 0.28, ease: 'none' },
           0.72,
         )
+
+      // ── Story section: copy reveals up, images float in with a lasting drift
+      gsap.fromTo(
+        '.printivo__story-copy > *',
+        { opacity: 0, y: 56 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__story', start: 'top 62%' },
+        },
+      )
+      gsap.utils.toArray<HTMLElement>('.printivo__story-img').forEach((img, i) => {
+        gsap.fromTo(
+          img,
+          { opacity: 0, y: 90 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            delay: 0.25 + i * 0.2,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: '.printivo__story', start: 'top 55%' },
+            onComplete: () => {
+              gsap.to(img, {
+                y: '+=12',
+                duration: 3.2 + i * 0.9,
+                ease: 'sine.inOut',
+                yoyo: true,
+                repeat: -1,
+              })
+            },
+          },
+        )
+      })
     }, root)
 
     return () => ctx.revert()
@@ -88,6 +125,42 @@ export default function PrintivoPage() {
             height={593}
           />
         </div>
+      </section>
+
+      <section className="printivo__story" aria-label="Printivo background and goal">
+        <img
+          className="printivo__story-img printivo__story-img--press"
+          src="/images/projects/printivo/press-dither.png"
+          alt="Dithered illustration of a Gutenberg-style printing press"
+          width={154}
+          height={190}
+        />
+        <div className="printivo__story-copy">
+          <p>
+            A good point as any in history to observe would be the Gutenberg printing press of
+            1440. Despite the popularity of print technology and its obvious positive effects in
+            the past centuries, there is still a lot of work to be done in making this technology
+            easily accessible to individuals and small businesses in Nigeria, especially when they
+            have no desire to compromise on quality while working within a reasonable budget.
+          </p>
+          <p>
+            In 2003, Printivo.com, Nigeria&rsquo;s first web to print platform was launched to give
+            everyone easy access to quality prints for stationaries and merchandise. Over the
+            years, it has successfully served over 10,000 customers, but like all things, there is
+            always room for improvement.
+          </p>
+          <div className="printivo__goal">
+            <h2>The Goal?</h2>
+            <p>Improve the digital experience of new and existing Printivo customers.</p>
+          </div>
+        </div>
+        <img
+          className="printivo__story-img printivo__story-img--printer"
+          src="/images/projects/printivo/large-format-printer.jpg"
+          alt="Large-format printer producing colorful banners"
+          width={413}
+          height={338}
+        />
       </section>
 
       <img
