@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import HandControl from './HandControl'
+import { PROJECTS } from '../data/projects'
+import { loadSounds, playSound, playClickSound } from '../lib/sound'
 import './Hero.css'
-
-const SELECTED_WORK = [
-  'Printivo',
-  'Speedy Transfer',
-  'Welkum-U',
-  'Invoice, by bloc',
-  'WorkWise',
-  'TravelWahoo',
-]
 
 function useClock() {
   const [now, setNow] = useState(() => new Date())
@@ -31,42 +26,117 @@ function useClock() {
     hour12: true,
   }).format(now)
 
-  return `{${tzAbbr} — ${time}}`
+  return `{${tzAbbr} + ${time}}`
 }
 
 export default function Hero() {
   const clock = useClock()
+  const [hovered, setHovered] = useState<number | null>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+
+  useEffect(() => {
+    loadSounds()
+  }, [])
+
+  const hoverItem = useCallback(
+    (index: number | null) => {
+      setHovered((prev) => {
+        if (index !== null && index !== prev) playSound(PROJECTS[index].hoverSound)
+        return index
+      })
+    },
+    [],
+  )
+
+  const openProject = useCallback((index: number) => {
+    playClickSound()
+    window.open(PROJECTS[index].url, '_blank', 'noopener')
+  }, [])
+
+  const indexAtPoint = useCallback((pos: { x: number; y: number }) => {
+    const items = listRef.current?.querySelectorAll('li')
+    if (!items) return null
+    for (let i = 0; i < items.length; i++) {
+      const r = items[i].getBoundingClientRect()
+      if (pos.x >= r.left && pos.x <= r.right && pos.y >= r.top && pos.y <= r.bottom) return i
+    }
+    return null
+  }, [])
+
+  const onHandCursor = useCallback(
+    (pos: { x: number; y: number } | null) => {
+      hoverItem(pos ? indexAtPoint(pos) : null)
+    },
+    [hoverItem, indexAtPoint],
+  )
+
+  const onPinchClick = useCallback(
+    (pos: { x: number; y: number }) => {
+      const index = indexAtPoint(pos)
+      if (index !== null) openProject(index)
+    },
+    [indexAtPoint, openProject],
+  )
 
   return (
     <section className="hero" aria-label="Introduction">
       <div className="hero__frame">
         <h1 className="hero__headline">
-          MUDIA IMASUEN, FILMMAKER
+          MUDIA
           <br />
-          &amp; <span className="hero__headline--fat">DESIGNER</span> BASED IN
+          IMASUEN,
+          <br />
+          FILMMAKER &amp;
+          <br />
+          <span className="hero__headline--fat">DESIGNER</span>
+          <br />
+          BASED IN
           <br />
           KADUNA
         </h1>
 
         <img
           className="hero__portrait"
-          src="/images/portrait-mosaic.png"
-          alt="Mosaic portrait of Mudia Imasuen"
-          width={497}
-          height={676}
+          src="/images/portrait.webp"
+          alt="Portrait of Mudia Imasuen"
+          width={604}
+          height={821}
         />
 
         <div className="hero__work">
           <p className="hero__label">Selected work</p>
-          <ul className="hero__work-list">
-            {SELECTED_WORK.map((item) => (
-              <li key={item}>{item}</li>
+          <ul className="hero__work-list" ref={listRef}>
+            {PROJECTS.map((project, i) => (
+              <motion.li
+                key={project.slug}
+                animate={{
+                  x: hovered === i ? 28 : 0,
+                  opacity: hovered === null || hovered === i ? 1 : 0.35,
+                }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              >
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener"
+                  onMouseEnter={() => hoverItem(i)}
+                  onMouseLeave={() => hoverItem(null)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    openProject(i)
+                  }}
+                >
+                  {project.name}
+                </a>
+              </motion.li>
             ))}
           </ul>
         </div>
 
-        <p className="hero__clock">{clock}</p>
+        <p className="hero__clock">MY TIME ZONE: {clock}</p>
       </div>
+
+      <HandControl onCursor={onHandCursor} onPinchClick={onPinchClick} />
     </section>
   )
 }
