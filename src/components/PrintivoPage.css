@@ -1,4 +1,5 @@
 .printivo {
+  position: relative;
   background: #000;
   color: #fff;
   font-family: 'Delight', system-ui, sans-serif;
@@ -561,16 +562,109 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* ── Small screens ───────────────────────────────────────── */
+/* ── Tablet (≤1080px) ────────────────────────────────────────
+   The inquiry notes and the goals row need more room than a tablet
+   gives: the absolute-positioned notes start overlapping the centered
+   copy and the single-line goal items outgrow their column. Both
+   sections restack well before the phone breakpoint. */
+
+@media (max-width: 1080px) {
+  .printivo__inquiry {
+    min-height: auto;
+    padding: 14svh clamp(20px, 4vw, 40px) 12svh;
+  }
+
+  .printivo__inquiry-copy {
+    width: min(100%, 620px);
+    max-width: none;
+  }
+
+  .printivo__inquiry-heading {
+    white-space: normal;
+    font-size: clamp(28px, 4.5vw, 42px);
+  }
+
+  .printivo__inquiry-copy p:not(.printivo__inquiry-label) {
+    font-size: clamp(16px, 2vw, 19px);
+    text-align: left;
+  }
+
+  /* Notes fall back into the flow, alternating sides down the page. */
+  .printivo__note {
+    position: static;
+    width: min(76%, 320px);
+    margin: 36px auto 0;
+  }
+
+  .printivo__note:nth-child(odd) {
+    margin-left: 4%;
+  }
+
+  .printivo__note:nth-child(even) {
+    margin-right: 4%;
+    margin-left: auto;
+  }
+
+  .printivo__goals {
+    min-height: auto;
+    padding: 14svh clamp(20px, 4vw, 40px) 10svh;
+    display: block;
+  }
+
+  .printivo__goals-copy {
+    padding-left: 0;
+    max-width: 620px;
+  }
+
+  .printivo__goals-heading {
+    white-space: normal;
+    font-size: clamp(28px, 4.5vw, 42px);
+  }
+
+  .printivo__goals-intro {
+    font-size: clamp(16px, 2vw, 19px);
+    text-align: left;
+  }
+
+  .printivo__folder {
+    margin: 44px auto;
+  }
+
+  .printivo__goals-lists {
+    padding-top: 0;
+    gap: 34px;
+  }
+
+  .printivo__goals-list h3 {
+    font-size: clamp(15px, 2.2vw, 20px);
+  }
+
+  /* Items keep their single line: the font shrinks with the viewport
+     instead of wrapping, down to phone widths. */
+  .printivo__goals-list ol {
+    font-size: clamp(11px, 3.5vw, 17px);
+  }
+
+  .printivo__goals-footnote {
+    padding-top: 44px;
+    font-size: clamp(12px, 1.6vw, 15px);
+  }
+}
+
+/* ── Phones (≤860px) ─────────────────────────────────────── */
 
 @media (max-width: 860px) {
+  /* The fixed chrome overlaps section headings on small screens; pinned
+     to the page instead, it scrolls away with the opening slide. */
   .printivo__topbar {
+    position: absolute;
     grid-template-columns: 1fr 1fr;
     row-gap: 12px;
     padding: 20px 20px 0;
   }
 
   .printivo__label {
+    position: absolute;
     top: 118px;
     left: 20px;
   }
@@ -603,7 +697,7 @@
   }
 
   .printivo__roles {
-    padding: 14svh 20px 10svh;
+    padding: 16svh 20px 10svh;
   }
 
   .printivo__roles-copy {
@@ -621,17 +715,42 @@
     font-size: 17px;
   }
 
+  /* The 20-column gantt has no room on a phone: drop the week ruler and
+     let the bars stack as a plain list inside the panel. */
+  .printivo__timeline {
+    min-height: auto;
+    padding: 12svh 0;
+  }
+
   .printivo__timeline-frame {
     width: calc(100% - 40px);
   }
 
+  .printivo__tl-weeks {
+    display: none;
+  }
+
+  .printivo__tl-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0;
+    min-height: 0;
+  }
+
+  .printivo__tl-row--empty {
+    display: none;
+  }
+
   .printivo__tl-bar {
     white-space: normal;
+    font-size: 13px;
   }
 
   .printivo__research {
     display: block;
-    padding: 14svh 20px 10svh;
+    padding: 16svh 20px 10svh;
   }
 
   .printivo__research-copy p:not(.printivo__research-label) {
@@ -640,88 +759,12 @@
   }
 
   .printivo__research-video {
-    margin: 30px 0;
+    margin: 30px auto;
     max-height: none;
   }
 
-  .printivo__inquiry {
-    min-height: auto;
-    padding: 14svh 20px 12svh;
-  }
-
-  .printivo__inquiry-copy {
-    width: auto;
-    max-width: none;
-  }
-
-  .printivo__inquiry-heading {
-    white-space: normal;
-  }
-
-  .printivo__inquiry-copy p:not(.printivo__inquiry-label) {
-    font-size: 17px;
-    text-align: left;
-  }
-
-  /* Notes fall back into the flow, alternating sides down the page. */
-  .printivo__note {
-    position: static;
-    width: min(76%, 300px);
-    margin: 32px auto 0;
-  }
-
-  .printivo__note:nth-child(odd) {
-    margin-left: 4%;
-  }
-
-  .printivo__note:nth-child(even) {
-    margin-right: 4%;
-    margin-left: auto;
-  }
-
+  .printivo__inquiry,
   .printivo__goals {
-    min-height: auto;
-    padding: 14svh 20px 10svh;
-    display: block;
-  }
-
-  .printivo__goals-copy {
-    padding-left: 0;
-  }
-
-  .printivo__goals-heading {
-    white-space: normal;
-  }
-
-  .printivo__folder {
-    margin: 40px auto 48px;
-  }
-
-  .printivo__goals-lists {
-    padding-top: 0;
-    gap: 32px;
-  }
-
-  .printivo__goals-intro {
-    font-size: 17px;
-    text-align: left;
-  }
-
-  .printivo__goals-list h3 {
-    white-space: normal;
-    font-size: 17px;
-  }
-
-  .printivo__goals-list ol {
-    font-size: 16px;
-  }
-
-  .printivo__goals-list li {
-    white-space: normal;
-  }
-
-  .printivo__goals-footnote {
-    padding-top: 12px;
-    font-size: 13px;
+    padding-top: 16svh;
   }
 }
