@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="640" viewBox="0 0 1600 640">
+  <defs>
+    <linearGradient id="g" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="rgb(49,38,21)"/>
+      <stop offset="0.7" stop-color="rgb(104,114,38)"/>
+      <stop offset="1" stop-color="rgb(209,187,71)"/>
+    </linearGradient>
+    <radialGradient id="s" cx="0.5" cy="0.42" r="0.18">
+      <stop offset="0" stop-color="rgba(255,250,230,0.95)"/>
+      <stop offset="1" stop-color="rgba(255,250,230,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="640" fill="url(#g)"/>
+  <rect width="1600" height="640" fill="url(#s)"/>
+  <text x="48" y="576" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="600" fill="rgba(255,255,255,0.92)">Speedy Transfer</text>
+  <text x="48" y="606" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.55)">Placeholder — replace with a hero image from the project</text>
+</svg>
