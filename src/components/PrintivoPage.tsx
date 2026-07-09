@@ -1,9 +1,38 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SOUND, loadSounds, playSound } from '../lib/sound'
 import './PrintivoPage.css'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// Research sticky notes: each card carries its own hover sound from the kit.
+const INQUIRY_NOTES = [
+  {
+    text: 'Users clearly want to know if they could get printivo to create the designs for them and what that entails.',
+    sound: SOUND.TYPE,
+  },
+  {
+    text: 'Users will like to be able to clearly see details on each product on the platform.',
+    sound: SOUND.TAP,
+  },
+  {
+    text: 'Users keep calling to complete their orders over the phone and send files via WhatsApp.',
+    sound: SOUND.NOTIFICATION,
+  },
+  {
+    text: 'We have to limit the frequency of orders being placed without print files.\n-Tech',
+    sound: SOUND.TOGGLE_ON,
+  },
+  {
+    text: 'The homepage needs to be less busy so that users can easily navigate it.',
+    sound: SOUND.SWIPE,
+  },
+  {
+    text: 'Users complain about the search function on the website and the results it returns.',
+    sound: SOUND.SELECT,
+  },
+]
 
 export default function PrintivoPage() {
   const rootRef = useRef<HTMLElement>(null)
@@ -159,7 +188,39 @@ export default function PrintivoPage() {
           scrollTrigger: { trigger: '.printivo__research', start: 'top 58%' },
         },
       )
+
+      // ── Contextual inquiry: centered copy cascades up, then the sticky
+      // notes materialize one by one in a random order — a reverse blur
+      // dissolve, sharpening out of a heavy blur as they fade in.
+      gsap.fromTo(
+        '.printivo__inquiry-copy > *',
+        { opacity: 0, y: 56 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          stagger: 0.13,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.printivo__inquiry', start: 'top 62%' },
+        },
+      )
+      gsap.fromTo(
+        '.printivo__note',
+        { opacity: 0, y: 26, filter: 'blur(30px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 1.05,
+          ease: 'power2.out',
+          stagger: { each: 0.32, from: 'random' },
+          scrollTrigger: { trigger: '.printivo__inquiry', start: 'top 55%' },
+        },
+      )
     }, root)
+
+    // Fetch the audio sprite early so the first hover plays without a hitch.
+    loadSounds()
 
     return () => ctx.revert()
   }, [])
@@ -375,6 +436,37 @@ export default function PrintivoPage() {
             happens often).
           </p>
         </div>
+      </section>
+
+      <section className="printivo__inquiry" aria-label="Contextual inquiry research">
+        <div className="printivo__inquiry-copy">
+          <h2 className="printivo__inquiry-heading">....and some more research</h2>
+          <p className="printivo__inquiry-label">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="6.4" />
+              <circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none" />
+              <path d="M12 2.2v3.1M12 18.7v3.1M2.2 12h3.1M18.7 12h3.1" />
+            </svg>
+            A bit of contextual Inquiry
+          </p>
+          <p>
+            I observed the new users (participants off Twitter), to observe how they made use of
+            the platform while asking them to think (speak) out loud as they navigated the
+            platform. The task I gave them was to order either a business card, a face-mask or a
+            mug (these are part of our most ordered products based on the data on our analytics).
+          </p>
+          <p>
+            Overall I found out that there was a lot of difficulty in performing a simple end to
+            end purchase on the platform and that had to be worked on.
+          </p>
+        </div>
+        {INQUIRY_NOTES.map((note, i) => (
+          <div className={`printivo__note printivo__note--${i + 1}`} key={note.sound}>
+            <div className="printivo__note-card" onMouseEnter={() => playSound(note.sound)}>
+              {note.text}
+            </div>
+          </div>
+        ))}
       </section>
 
       <img

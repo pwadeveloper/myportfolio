@@ -378,6 +378,111 @@
   will-change: transform, opacity;
 }
 
+/* ── Contextual inquiry: sticky-note wall ────────────────── */
+
+.printivo__inquiry {
+  position: relative;
+  min-height: 100svh;
+  padding: 16svh 0 14svh;
+}
+
+/* 1920 frame: the copy column sits centered at roughly 455px wide. */
+.printivo__inquiry-copy {
+  margin: 0 auto;
+  width: clamp(340px, 24vw, 470px);
+  max-width: 88%;
+}
+
+.printivo__inquiry-heading {
+  margin: 0 0 0.75em;
+  font-family: 'PP Editorial New', var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 2.15vw, 41px);
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+
+.printivo__inquiry-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 1.3em;
+  font-weight: 600;
+  font-size: clamp(13px, 1.15vw, 22px);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.printivo__inquiry-label svg {
+  width: clamp(18px, 1.4vw, 27px);
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.printivo__inquiry-copy p:not(.printivo__inquiry-label) {
+  margin: 0 0 1.35em;
+  font-weight: 400;
+  font-size: clamp(14px, 1.25vw, 24px);
+  line-height: 1.55;
+  text-align: justify;
+}
+
+/* Outer wrapper is the GSAP reveal target (opacity / y / blur), so the
+   card underneath keeps its own filter + scale free for the hover state. */
+.printivo__note {
+  position: absolute;
+  width: clamp(170px, 13vw, 250px);
+  will-change: transform, opacity, filter;
+}
+
+.printivo__note--1 { left: 9.5%; top: 13%; --tilt: -13deg; }
+.printivo__note--2 { left: 15%; top: 42%; --tilt: -10deg; }
+.printivo__note--3 { left: 15.5%; top: 69%; --tilt: -6deg; }
+.printivo__note--4 { right: 8%; top: 15%; --tilt: 5deg; }
+.printivo__note--5 { right: 6.5%; top: 42%; --tilt: -9deg; }
+.printivo__note--6 { right: 8.5%; top: 67%; --tilt: 4deg; }
+
+/* The 315deg gradient cuts the bottom-right corner off the paper; the
+   ::after triangle sitting in that notch reads as the folded-over flap. */
+.printivo__note-card {
+  --fold: clamp(14px, 1.15vw, 22px);
+  position: relative;
+  padding: clamp(14px, 1.2vw, 22px) clamp(14px, 1.15vw, 22px) clamp(22px, 1.7vw, 32px);
+  background: linear-gradient(315deg, transparent var(--fold), #ecc99e 0);
+  color: #33251a;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: clamp(11px, 0.84vw, 16px);
+  line-height: 1.5;
+  white-space: pre-line;
+  rotate: var(--tilt, 0deg);
+  box-shadow: 0 0 34px rgba(242, 198, 148, 0.28);
+  cursor: default;
+  transition:
+    scale 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.printivo__note-card::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--fold);
+  height: var(--fold);
+  background: linear-gradient(315deg, transparent 50%, #c39463 50%);
+}
+
+/* Brighter, slightly bigger, and (from the tsx) a sound — all in sync. */
+.printivo__note-card:hover {
+  scale: 1.07;
+  filter: brightness(1.18);
+  box-shadow: 0 0 52px rgba(255, 216, 168, 0.5);
+}
+
 /* ── Small screens ───────────────────────────────────────── */
 
 @media (max-width: 860px) {
@@ -459,5 +564,44 @@
   .printivo__research-video {
     margin: 30px 0;
     max-height: none;
+  }
+
+  .printivo__inquiry {
+    min-height: auto;
+    padding: 14svh 20px 12svh;
+  }
+
+  .printivo__inquiry-copy {
+    width: auto;
+    max-width: none;
+  }
+
+  .printivo__inquiry-heading {
+    white-space: normal;
+  }
+
+  .printivo__inquiry-copy p:not(.printivo__inquiry-label) {
+    font-size: 17px;
+    text-align: left;
+  }
+
+  /* Notes fall back into the flow, alternating sides down the page. */
+  .printivo__note {
+    position: static;
+    width: min(72%, 280px);
+    margin: 40px auto 0;
+  }
+
+  .printivo__note:nth-child(odd) {
+    margin-left: 6%;
+  }
+
+  .printivo__note:nth-child(even) {
+    margin-right: 6%;
+    margin-left: auto;
+  }
+
+  .printivo__note-card {
+    font-size: 13px;
   }
 }
