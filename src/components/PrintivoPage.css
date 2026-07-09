@@ -469,12 +469,21 @@
 
 /* ── Well defined goals ──────────────────────────────────── */
 
+/* 1920 frame: copy column at 90px / folder centered / lists from ~1320px,
+   footnote pinned low-left across the full width. */
 .printivo__goals {
   position: relative;
   min-height: 100svh;
-  padding: 18svh 1.56% 8svh;
-  display: flex;
-  flex-direction: column;
+  padding: 26svh 2.08% 8svh 1.56%;
+  display: grid;
+  grid-template-columns: 33% auto 30.5%;
+  grid-template-rows: 1fr auto;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.printivo__goals-copy {
+  padding-left: clamp(20px, 3.1vw, 60px);
 }
 
 /* Frosted-glass folder: paper sheets tucked behind a translucent front
@@ -483,7 +492,7 @@
   position: relative;
   width: clamp(150px, 12.5vw, 240px);
   aspect-ratio: 240 / 200;
-  margin: 0 auto clamp(60px, 11svh, 130px);
+  margin: 0 auto;
   will-change: transform, opacity;
 }
 
@@ -548,16 +557,9 @@
   margin: 0 0 0.55em;
   font-family: 'PP Editorial New', var(--serif);
   font-weight: 400;
-  font-size: clamp(30px, 2.9vw, 56px);
+  font-size: clamp(26px, 2.5vw, 48px);
   letter-spacing: 0.005em;
-}
-
-/* 1920 frame: 605px intro / two goal columns, 30px side margins */
-.printivo__goals-grid {
-  display: grid;
-  grid-template-columns: 31.8% 29.5% 28.5%;
-  justify-content: space-between;
-  align-items: start;
+  white-space: nowrap;
 }
 
 .printivo__goals-intro {
@@ -568,25 +570,36 @@
   text-align: justify;
 }
 
+.printivo__goals-lists {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4.8svh, 56px);
+  padding-top: 1svh;
+}
+
 .printivo__goals-list h3 {
   margin: 0 0 0.7em;
   font-weight: 700;
-  font-size: clamp(15px, 1.25vw, 24px);
+  font-size: clamp(14px, 1.2vw, 23px);
+  white-space: nowrap;
 }
 
+/* Items hold a single line at all viewports: the font tracks the column
+   (both are vw-proportional), so what fits at the 1920 frame keeps fitting. */
 .printivo__goals-list ol {
   margin: 0;
-  padding-left: 2.2em;
+  padding-left: 2.1em;
   list-style: lower-alpha;
   font-weight: 400;
-  font-size: clamp(14px, 1.15vw, 22px);
+  font-size: clamp(11px, 1.1vw, 21px);
   line-height: 1.35;
   color: rgba(255, 255, 255, 0.92);
 }
 
 .printivo__goals-list li {
-  margin-bottom: 0.85em;
-  padding-left: 0.25em;
+  margin-bottom: 0.9em;
+  padding-left: 0.2em;
+  white-space: nowrap;
 }
 
 .printivo__goals-star {
@@ -595,8 +608,10 @@
 
 /* The footnote sits low-left, pushed to the section's bottom edge. */
 .printivo__goals-footnote {
+  grid-column: 1 / -1;
+  align-self: end;
   max-width: 34em;
-  margin: auto 0 0;
+  margin: 0;
   padding-top: 9svh;
   font-weight: 400;
   font-size: clamp(12px, 0.9vw, 17px);
@@ -728,26 +743,39 @@
     display: block;
   }
 
-  .printivo__folder {
-    margin-bottom: 48px;
+  .printivo__goals-copy {
+    padding-left: 0;
   }
 
-  .printivo__goals-grid {
-    display: block;
+  .printivo__goals-heading {
+    white-space: normal;
+  }
+
+  .printivo__folder {
+    margin: 40px auto 48px;
+  }
+
+  .printivo__goals-lists {
+    padding-top: 0;
+    gap: 32px;
   }
 
   .printivo__goals-intro {
     font-size: 17px;
     text-align: left;
-    margin-bottom: 36px;
   }
 
-  .printivo__goals-list {
-    margin-bottom: 32px;
+  .printivo__goals-list h3 {
+    white-space: normal;
+    font-size: 17px;
   }
 
   .printivo__goals-list ol {
     font-size: 16px;
+  }
+
+  .printivo__goals-list li {
+    white-space: normal;
   }
 
   .printivo__goals-footnote {

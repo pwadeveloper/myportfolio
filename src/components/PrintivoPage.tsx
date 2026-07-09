@@ -550,6 +550,16 @@ export default function PrintivoPage() {
       </section>
 
       <section className="printivo__goals" aria-label="Well defined goals">
+        <div className="printivo__goals-copy">
+          <h2 className="printivo__goals-heading">Well defined goals.</h2>
+          <p className="printivo__goals-intro">
+            When I was done with all my interviews, I compiled it into a UX audit and had a
+            meeting with the Printivo team, we went over all the data and decided on goals for
+            the redesign/rebuild that will help us increase platform value, grow the customer
+            base and increase conversion and reduce bounce rate. Put simply we planned to:
+          </p>
+        </div>
+
         {/* Frosted-glass folder built from layered divs: paper sheets sit
             behind a translucent front pocket whose backdrop-filter blurs
             them — stand-in until the real icon asset lands. */}
@@ -561,15 +571,7 @@ export default function PrintivoPage() {
           <div className="printivo__folder-front" />
         </div>
 
-        <h2 className="printivo__goals-heading">Well defined goals.</h2>
-
-        <div className="printivo__goals-grid">
-          <p className="printivo__goals-intro">
-            When I was done with all my interviews, I compiled it into a UX audit and had a
-            meeting with the Printivo team, we went over all the data and decided on goals for
-            the redesign/rebuild that will help us increase platform value, grow the customer
-            base and increase conversion and reduce bounce rate. Put simply we planned to:
-          </p>
+        <div className="printivo__goals-lists">
           <div className="printivo__goals-list">
             <h3>1.&ensp;Increase Conversion</h3>
             <ol>
