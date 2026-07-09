@@ -6,30 +6,50 @@ import './PrintivoPage.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Research sticky notes: each card carries its own hover sound from the kit.
+// Research sticky notes: tilt, folded corner and glow are baked into the
+// PNGs; each card carries its own hover sound from the kit. Array order maps
+// to the layout slots — 1-3 down the left side, 4-6 down the right.
 const INQUIRY_NOTES = [
   {
-    text: 'Users clearly want to know if they could get printivo to create the designs for them and what that entails.',
+    src: '/images/projects/printivo/note-6.png',
+    width: 327,
+    height: 254,
+    alt: 'Sticky note: users clearly want to know if they could get Printivo to create the designs for them and what that entails.',
     sound: SOUND.TYPE,
   },
   {
-    text: 'Users will like to be able to clearly see details on each product on the platform.',
+    src: '/images/projects/printivo/note-1.png',
+    width: 327,
+    height: 252,
+    alt: 'Sticky note: users will like to be able to clearly see details on each product on the platform.',
     sound: SOUND.TAP,
   },
   {
-    text: 'Users keep calling to complete their orders over the phone and send files via WhatsApp.',
+    src: '/images/projects/printivo/note-4.png',
+    width: 318,
+    height: 224,
+    alt: 'Sticky note: users keep calling to complete their orders over the phone and send files via WhatsApp.',
     sound: SOUND.NOTIFICATION,
   },
   {
-    text: 'We have to limit the frequency of orders being placed without print files.\n-Tech',
+    src: '/images/projects/printivo/note-5.png',
+    width: 317,
+    height: 232,
+    alt: 'Sticky note from the tech team: we have to limit the frequency of orders being placed without print files.',
     sound: SOUND.TOGGLE_ON,
   },
   {
-    text: 'The homepage needs to be less busy so that users can easily navigate it.',
+    src: '/images/projects/printivo/note-2.png',
+    width: 328,
+    height: 254,
+    alt: 'Sticky note: the homepage needs to be less busy so that users can easily navigate it.',
     sound: SOUND.SWIPE,
   },
   {
-    text: 'Users complain about the search function on the website and the results it returns.',
+    src: '/images/projects/printivo/note-3.png',
+    width: 316,
+    height: 221,
+    alt: 'Sticky note: users complain about the search function on the website and the results it returns.',
     sound: SOUND.SELECT,
   },
 ]
@@ -462,9 +482,15 @@ export default function PrintivoPage() {
         </div>
         {INQUIRY_NOTES.map((note, i) => (
           <div className={`printivo__note printivo__note--${i + 1}`} key={note.sound}>
-            <div className="printivo__note-card" onMouseEnter={() => playSound(note.sound)}>
-              {note.text}
-            </div>
+            <img
+              className="printivo__note-img"
+              src={note.src}
+              alt={note.alt}
+              width={note.width}
+              height={note.height}
+              loading="lazy"
+              onMouseEnter={() => playSound(note.sound)}
+            />
           </div>
         ))}
       </section>
