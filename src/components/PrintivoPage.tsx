@@ -54,6 +54,83 @@ const INQUIRY_NOTES = [
   },
 ]
 
+// ── Flow slide: heading scramble + the Miro flowchart ───────
+const FLOW_HEADING_FROM = 'Worked on a flow together'
+const FLOW_HEADING_TO = 'and then we cleaned it up'
+
+/* Scroll-scrubbed text scramble: characters resolve left to right while the
+   unresolved tail shimmers through random glyphs. */
+const SCRAMBLE_GLYPHS = 'abcdefghijklmnopqrstuvwxyz'
+function scrambleText(from: string, to: string, p: number) {
+  if (p <= 0) return from
+  if (p >= 1) return to
+  const len = Math.round(from.length + (to.length - from.length) * p)
+  const resolved = Math.floor(p * 1.15 * to.length)
+  let out = ''
+  for (let i = 0; i < len; i++) {
+    const target = i < to.length ? to[i] : ''
+    if (i < resolved) out += target
+    else if (target === ' ' || from[i] === ' ') out += ' '
+    else out += SCRAMBLE_GLYPHS[(Math.random() * SCRAMBLE_GLYPHS.length) | 0]
+  }
+  return out
+}
+
+/* The collaborative Miro flowchart, hand-placed on a 1920x570 stage (the
+   design frame's flowchart region). Coordinates are px in that space. */
+const FLOW_NODES: Array<{
+  label: string
+  x: number
+  y: number
+  w: number
+  variant: 'cream' | 'light' | 'end'
+  diamond?: boolean
+  icon?: boolean
+}> = [
+  { label: 'Printivo.com', x: 242, y: 7, w: 185, variant: 'cream', icon: true },
+  { label: 'Categories', x: 305, y: 115, w: 110, variant: 'light' },
+  { label: 'Products', x: 307, y: 195, w: 89, variant: 'light' },
+  { label: 'Select Product', x: 452, y: 159, w: 137, variant: 'light' },
+  { label: 'Design Decision', x: 630, y: 101, w: 156, variant: 'cream', diamond: true },
+  { label: 'Checkout Page', x: 962, y: 140, w: 143, variant: 'light' },
+  { label: 'Contact/Shipping Details', x: 1126, y: 216, w: 168, variant: 'cream' },
+  { label: 'Make Payment', x: 1330, y: 227, w: 140, variant: 'cream' },
+  { label: 'Success', x: 1504, y: 227, w: 82, variant: 'cream' },
+  { label: 'End', x: 1683, y: 288, w: 47, variant: 'end' },
+  { label: 'Upload Design File', x: 628, y: 323, w: 172, variant: 'cream' },
+  { label: 'Request For Design', x: 628, y: 390, w: 177, variant: 'cream' },
+  { label: 'Design With Our Tool', x: 628, y: 456, w: 191, variant: 'cream' },
+  { label: 'Pay Now, Upload Later', x: 628, y: 523, w: 207, variant: 'cream' },
+  { label: 'Write Design Requirements', x: 858, y: 370, w: 133, variant: 'cream' },
+  { label: 'Create Design', x: 858, y: 456, w: 136, variant: 'cream' },
+  { label: 'Select Payment Option', x: 1126, y: 306, w: 147, variant: 'cream' },
+]
+
+/* Connector curves in the same 1920x570 space; pathLength=1 in the JSX lets
+   the scrub timeline draw them with a plain dashoffset tween. */
+const FLOW_EDGES = [
+  'M334 54 C334 92, 360 96, 360 115',
+  'M360 161 C360 172, 352 180, 352 195',
+  'M396 218 C424 218, 426 182, 452 182',
+  'M589 182 C606 182, 613 183, 630 183',
+  'M708 266 C708 300, 664 330, 628 344',
+  'M708 266 C702 330, 664 396, 628 412',
+  'M708 266 C696 350, 660 462, 628 478',
+  'M708 266 C692 380, 656 528, 628 545',
+  'M800 345 C890 340, 930 205, 962 178',
+  'M805 413 C828 413, 836 404, 858 402',
+  'M991 385 C1040 368, 1046 240, 1024 186',
+  'M819 479 C836 479, 840 479, 858 479',
+  'M994 479 C1064 468, 1064 260, 1033 186',
+  'M835 546 C1010 540, 1072 300, 1043 186',
+  'M1105 163 C1160 168, 1184 186, 1210 216',
+  'M1033 186 C1046 268, 1088 336, 1126 342',
+  'M1200 286 C1200 292, 1200 300, 1200 306',
+  'M1294 251 C1308 251, 1316 250, 1330 250',
+  'M1470 250 C1483 250, 1491 250, 1504 250',
+  'M1586 250 C1636 254, 1676 268, 1706 288',
+]
+
 export default function PrintivoPage() {
   const rootRef = useRef<HTMLElement>(null)
 
@@ -288,6 +365,61 @@ export default function PrintivoPage() {
           },
         )
       })
+
+      // ── Flow slide: pinned — the paragraph blurs away, the heading
+      // scrambles into the punchline, and the flowchart draws itself in
+      const flowHeading = root.querySelector<HTMLElement>('.printivo__flow-heading')
+      const scramble = { p: 0 }
+      const flowTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.printivo__flow',
+          start: 'top top',
+          end: '+=160%',
+          pin: true,
+          scrub: 1,
+        },
+      })
+      flowTl
+        .to(
+          '.printivo__flow-copy',
+          { opacity: 0, filter: 'blur(14px)', duration: 0.2, ease: 'none' },
+          0.06,
+        )
+        .to(
+          scramble,
+          {
+            p: 1,
+            duration: 0.3,
+            ease: 'none',
+            onUpdate: () => {
+              if (flowHeading) {
+                flowHeading.textContent = scrambleText(
+                  FLOW_HEADING_FROM,
+                  FLOW_HEADING_TO,
+                  scramble.p,
+                )
+              }
+            },
+          },
+          0.16,
+        )
+        .to(
+          '.printivo__flow-miro',
+          { opacity: 0, filter: 'blur(12px)', duration: 0.24, ease: 'none' },
+          0.34,
+        )
+        .fromTo(
+          '.printivo__flow-lines path',
+          { strokeDashoffset: 1, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 1, duration: 0.4, stagger: 0.012, ease: 'none' },
+          0.4,
+        )
+        .fromTo(
+          '.printivo__flow-node',
+          { opacity: 0, y: 18, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.3, stagger: 0.018, ease: 'power2.out' },
+          0.48,
+        )
     }, root)
 
     // Fetch the audio sprite early so the first hover plays without a hitch.
@@ -597,6 +729,49 @@ export default function PrintivoPage() {
           experience and we ended up building infrastructure to help make this possible as well
           as scale our services.
         </p>
+      </section>
+
+      <section className="printivo__flow" aria-label="Worked on a flow together">
+        <div className="printivo__flow-head">
+          <h2 className="printivo__flow-heading">{FLOW_HEADING_FROM}</h2>
+          <p className="printivo__flow-copy">
+            We had a series of meetings where we then worked on different iterations of the user
+            flow together, here is one of our collaborative flows on Miro that shows a proposed
+            end to end actions of a customer who completes an order.
+          </p>
+        </div>
+        <div className="printivo__flow-stage" aria-hidden="true">
+          <img
+            className="printivo__flow-miro"
+            src="/images/projects/printivo/initial-exploration.png"
+            alt=""
+            width={6241}
+            height={1191}
+            loading="lazy"
+          />
+          <svg className="printivo__flow-lines" viewBox="0 0 1920 570" preserveAspectRatio="none">
+            {FLOW_EDGES.map((d) => (
+              <path key={d} d={d} pathLength={1} />
+            ))}
+          </svg>
+          {FLOW_NODES.map((n) => (
+            <span
+              key={n.label}
+              className={`printivo__flow-node printivo__flow-node--${n.variant}${
+                n.diamond ? ' printivo__flow-node--diamond' : ''
+              }`}
+              style={{ left: `${n.x / 19.2}%`, top: `${n.y / 5.7}%`, width: `${n.w / 19.2}%` }}
+            >
+              {n.icon && (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18M12 3c-2.6 2.4-4 5.6-4 9s1.4 6.6 4 9c2.6-2.4 4-5.6 4-9s-1.4-6.6-4-9z" />
+                </svg>
+              )}
+              {n.diamond ? <span>{n.label}</span> : n.label}
+            </span>
+          ))}
+        </div>
       </section>
 
       <img
